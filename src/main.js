@@ -28,7 +28,7 @@ const sections = [
   q("q15","Quais informações devem ser registradas em cada apoio recebido?","multi",["Tipo de apoio","Descrição","Quantidade","Valor estimado ou financeiro","Data de recebimento","Apoiador responsável","Projeto ou área beneficiada","Responsável interno","Condições / restrições","Comprovantes ou anexos","Outras"]),
   q("q16","Como funciona atualmente o processo desde a oferta até o recebimento de um apoio?","textarea"),
   q("q17","Existem contrapartidas, compromissos ou condições que o CiP precisa cumprir ao receber um apoio?","radio",["Sim","Não","Às vezes"],true),
-  q("q18","Quando existem condições ou compromissos, quais precisam ser acompanhados?","textarea",false),
+  q("q18","Quando existem condições ou compromissos, quais precisam ser acompanhados?","textarea",[],false),
   q("q19","É necessário emitir ou armazenar recibos, termos, comprovantes ou prestações de contas?","multi",["Recibos","Termos de parceria / compromisso","Notas fiscais","Comprovantes de transferência","Relatórios de prestação de contas","Fotos ou evidências","Não se aplica","Outros"]),
   q("q20","O CiP acompanha os resultados ou impactos gerados por cada apoio? Como?","textarea"),
   q("q21","Há apoios que possuem restrições de uso, prazo de validade ou destinação específica?","textarea")
@@ -70,7 +70,7 @@ const sections = [
   q("q47","Quais funcionalidades são indispensáveis para a primeira versão do sistema?","textarea"),
   q("q48","Quais funcionalidades poderiam ficar para uma versão futura?","textarea"),
   q("q49","Se pudesse escolher apenas três prioridades para o sistema, quais seriam?","textarea"),
-  q("q50","Há alguma necessidade, dificuldade ou sugestão que não foi abordada neste questionário?","textarea",false)
+  q("q50","Há alguma necessidade, dificuldade ou sugestão que não foi abordada neste questionário?","textarea",[],false)
  ]}
 ];
 
