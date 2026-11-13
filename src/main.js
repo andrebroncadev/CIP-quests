@@ -104,7 +104,7 @@ function render(){
     <div class="questions">${section.questions.map(renderQuestion).join("")}</div>
    </section>
 ${current===sections.length-1?'<div class="public-consent"><label><input type="checkbox" id="publicConsent" required /> <span><strong>Concordo com a publicação das minhas respostas.</strong> Entendo que meu nome, minha função e as respostas enviadas ficarão disponíveis publicamente na internet, podendo ser acessados por qualquer pessoa.</span></label></div>':''}
-${nav} ${current===0?"disabled":""}>← Voltar</button><span class="autosave">Suas respostas ficam nesta página até o envio.</span>${current===sections.length-1?'<button type="submit" class="btn primary">Enviar respostas <span>→</span></button>':'<button type="button" class="btn primary" id="next">Próxima etapa <span>→</span></button>'}</div>
+<div class="nav"><button type="button" class="btn secondary" id="back" ${current===0?"disabled":""}>← Voltar</button><span class="autosave">Suas respostas ficam nesta página até o envio.</span>${current===sections.length-1?'<button type="submit" class="btn primary">Enviar respostas <span>→</span></button>':'<button type="button" class="btn primary" id="next">Próxima etapa <span>→</span></button>'}</div>
   </form>
   <footer>CiP · Questionário de levantamento de requisitos<br><small>As respostas serão utilizadas pela equipe do projeto para análise e definição dos requisitos do sistema.</small></footer>
  </main>`;
