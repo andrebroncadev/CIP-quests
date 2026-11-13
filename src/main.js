@@ -93,12 +93,11 @@ function renderQuestion(question){
 }
 function render(){
  const section=sections[current];
- const percent=Math.round(((current+1)/sections.length)*100);
  root.innerHTML=`
  <header class="topbar"><div class="brand-mark">CiP</div><div><strong>Centro de Integração e Promoção</strong><span>Levantamento de necessidades</span></div><span class="top-tag">QUESTIONÁRIO</span></header>
  <main class="shell">
   <div class="intro"><p class="eyebrow">PROJETO DE DESENVOLVIMENTO DE SISTEMA</p><h1>Vamos entender como o CiP funciona.</h1><p>Este questionário busca entender como o CIP organiza o relacionamento com seus apoiadores e acompanha os apoios recebidos. Responda com base na rotina real da instituição. Ao final, você poderá revisar as perguntas que ficaram sem resposta antes de enviar.</p><div class="meta"><span>◷ Aproximadamente 15–20 minutos</span><span>▤ ${sections.reduce((n,s)=>n+s.questions.length,0)} perguntas</span></div></div>
-  <div class="progress-card"><div class="progress-label"><span>Etapa ${current+1} de ${sections.length}</span><b>${percent}% concluído</b></div><div class="progress"><i style="width:${percent}%"></i></div><div class="steps">${sections.map((s,i)=>`<span class="${i===current?"active":i<current?"done":""}">${i+1}</span>`).join("")}</div></div>
+  <div class="progress-card"><div class="progress-label"><span>Etapa ${current+1} de ${sections.length}</span><b id="progress-percent">0% respondido</b></div><div class="progress"><i id="progress-fill" style="width:0%"></i></div><div class="steps">${sections.map((s,i)=>`<span class="${i===current?"active":i<current?"done":""}">${i+1}</span>`).join("")}</div></div>
   <form id="survey" novalidate>
    <section class="section-card"><div class="section-count">ETAPA 0${current+1}</div><h2>${section.title}</h2><p class="section-intro">${section.intro}</p><div class="respondent-fields">${current===0?`<label>Nome de quem está respondendo <span class="required-name">(obrigatório)</span><input name="respondent_name" id="respondent_name" placeholder="Seu nome" value="${escapeHtml(answers.respondent_name||"")}" required /></label><label>Função / cargo<input name="respondent_role" id="respondent_role" placeholder="Sua função no CiP" value="${escapeHtml(answers.respondent_role||"")}" /></label>`:""}</div>
     <div class="questions">${section.questions.map(renderQuestion).join("")}</div>
@@ -108,6 +107,7 @@ function render(){
   <footer>CiP · Questionário de levantamento de requisitos<br><small>As respostas serão utilizadas pela equipe do projeto para análise e definição dos requisitos do sistema.</small></footer>
  </main>`;
  root.querySelectorAll("input,textarea").forEach(el=>el.addEventListener("change",capture));
+ updateProgress();
  root.querySelectorAll("textarea,input[type=text],input[type=number]").forEach(el=>el.addEventListener("input",capture));
  root.querySelector("#back").addEventListener("click",()=>{captureAll();current=Math.max(0,current-1);render();window.scrollTo({top:0,behavior:"smooth"});});
  const next=root.querySelector("#next");
@@ -123,6 +123,19 @@ function capture(event){
  }else if(el.type==="radio"){
   if(el.checked)answers[el.name]=el.value;
  }else answers[el.name]=el.value;
+ updateProgress();
+}
+function updateProgress(){
+ const questions=sections.flatMap(section=>section.questions);
+ const answered=questions.filter(question=>{
+  const value=answers[question.id];
+  return Array.isArray(value)?value.length>0:String(value??"").trim().length>0;
+ }).length;
+ const percent=Math.round((answered/questions.length)*100);
+ const label=root.querySelector("#progress-percent");
+ const fill=root.querySelector("#progress-fill");
+ if(label)label.textContent=`${percent}% respondido`;
+ if(fill)fill.style.width=`${percent}%`;
 }
 function captureAll(){
  const section=sections[current];
@@ -132,6 +145,7 @@ function captureAll(){
   else if(question.type==="radio")answers[question.id]=root.querySelector(`input[name="${question.id}"]:checked`)?.value||"";
   else answers[question.id]=root.querySelector(`[name="${question.id}"]`)?.value||"";
  });
+ updateProgress();
 }
 function validateCurrent(){
  if(current===0&&!answers.respondent_name?.trim()){
