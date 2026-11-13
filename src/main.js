@@ -103,7 +103,8 @@ function render(){
    <section class="section-card"><div class="section-count">ETAPA 0${current+1}</div><h2>${section.title}</h2><p class="section-intro">${section.intro}</p><div class="respondent-fields">${current===0?`<label>Nome de quem está respondendo <span class="required-name">(obrigatório)</span><input name="respondent_name" id="respondent_name" placeholder="Seu nome" value="${escapeHtml(answers.respondent_name||"")}" required /></label><label>Função / cargo<input name="respondent_role" id="respondent_role" placeholder="Sua função no CiP" value="${escapeHtml(answers.respondent_role||"")}" /></label>`:""}</div>
     <div class="questions">${section.questions.map(renderQuestion).join("")}</div>
    </section>
-   <div class="nav"><button type="button" class="btn secondary" id="back" ${current===0?"disabled":""}>← Voltar</button><span class="autosave">Suas respostas ficam nesta página até o envio.</span>${current===sections.length-1?'<button type="submit" class="btn primary">Enviar respostas <span>→</span></button>':'<button type="button" class="btn primary" id="next">Próxima etapa <span>→</span></button>'}</div>
+${current===sections.length-1?'<div class="public-consent"><label><input type="checkbox" id="publicConsent" required /> <span><strong>Concordo com a publicação das minhas respostas.</strong> Entendo que meu nome, minha função e as respostas enviadas ficarão disponíveis publicamente na internet, podendo ser acessados por qualquer pessoa.</span></label></div>':''}
+${nav} ${current===0?"disabled":""}>← Voltar</button><span class="autosave">Suas respostas ficam nesta página até o envio.</span>${current===sections.length-1?'<button type="submit" class="btn primary">Enviar respostas <span>→</span></button>':'<button type="button" class="btn primary" id="next">Próxima etapa <span>→</span></button>'}</div>
   </form>
   <footer>CiP · Questionário de levantamento de requisitos<br><small>As respostas serão utilizadas pela equipe do projeto para análise e definição dos requisitos do sistema.</small></footer>
  </main>`;
@@ -152,18 +153,28 @@ function renderPendingReview(unanswered){
 }
 async function submit(event){
  event.preventDefault();captureAll();
- if(!validateCurrent())return;
+ if(!validateCurrent()||!validatePublicationConsent())return;
  const unanswered=sections.flatMap(section=>section.questions.filter(question=>{
   const value=answers[question.id];
   return Array.isArray(value)?value.length===0:!String(value??'').trim();
  }));
  if(unanswered.length){renderPendingReview(unanswered);panelScroll();return;}
+ await sendAnswers();
+}
+function validatePublicationConsent(){
+ const consent=root.querySelector('#publicConsent');
+ if(!consent?.checked){consent?.focus();showError('Para enviar, é necessário concordar com a publicação pública do nome, função e respostas.');return false;}
+ return true;
+}
+async function sendAnswers(){
+ if(!validatePublicationConsent())return;
  if(!supabase){showError('A conexão com o banco de dados ainda não foi configurada. Avise a equipe responsável.');return;}
- const button=root.querySelector('button[type="submit"]');button.disabled=true;button.textContent='Enviando...';
- const payload={respondent_name:answers.respondent_name,respondent_role:answers.respondent_role?.trim()||'Não informado',answers,submitted_at:new Date().toISOString(),form_version:'1.1'};
+ const button=root.querySelector('button[type="submit"]')||root.querySelector('#send-anyway');
+ if(button){button.disabled=true;button.textContent='Enviando...';}
+ const payload={respondent_name:answers.respondent_name,respondent_role:answers.respondent_role?.trim()||'Não informado',answers,submitted_at:new Date().toISOString(),form_version:'1.2-public'};
  const {error}=await supabase.from('cip_responses').insert(payload);
- if(error){console.error(error);button.disabled=false;button.innerHTML='Enviar respostas →';showError('Não foi possível enviar agora. Verifique sua conexão e tente novamente.');return;}
- root.innerHTML='<main class="success-wrap"><div class="success-card"><div class="success-icon">✓</div><p class="eyebrow">RESPOSTA REGISTRADA</p><h1>Obrigado pela colaboração.</h1><p>Suas respostas foram enviadas com sucesso e já estão armazenadas para análise pela equipe do projeto.</p><div class="success-note">Você já pode fechar esta página.</div></div></main>';
+ if(error){console.error(error);if(button){button.disabled=false;button.textContent='Tentar novamente';}showError('Não foi possível enviar agora. Verifique sua conexão e tente novamente.');return;}
+ root.innerHTML='<main class="success-wrap"><div class="success-card"><div class="success-icon">✓</div><p class="eyebrow">RESPOSTA REGISTRADA</p><h1>Obrigado pela colaboração.</h1><p>Suas respostas foram enviadas com sucesso e ficarão disponíveis na página pública do projeto.</p><a href="/respostas.html">Consultar respostas públicas</a></div></main>';
  window.scrollTo({top:0,behavior:'smooth'});
 }
 function showError(message){
