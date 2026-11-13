@@ -29,7 +29,7 @@ const sections = [
   q("q16","Descreva o caminho de um apoio desde o primeiro contato ou oferta até seu recebimento. Quem participa e o que acontece em cada etapa?","textarea"),
   q("q17","Quais situações ou etapas um apoio pode atravessar até ser concluído?","multi",["Contato inicial / oferta recebida","Em avaliação","Aprovado / aceito","Aguardando entrega","Recebido parcialmente","Recebido integralmente","Recusado","Cancelado","Em armazenamento","Em uso / distribuição","Concluído","Não existe acompanhamento por etapas","Outras"]),
   q("q18","Há condições, contrapartidas, prazos ou compromissos associados aos apoios? Como essas obrigações são registradas e acompanhadas?","textarea",[],false),
-  q("q19","Quais documentos ou evidências precisam ser emitidos, recebidos ou guardados durante o relacionamento e o recebimento dos apoios?","multi",["Recibos","Termos de parceria / compromisso","Notas fiscais","Comprovantes de transferência","Relatórios de prestação de contas","Fotos ou evidências","Não se aplica","Outros"]),
+  q("q19","Quais documentos ou evidências precisam ser emitidos, recebidos ou guardados durante o relacionamento e o recebimento dos apoios?","multi",["Recibos","Termos de doação, cessão ou parceria","Notas fiscais ou documentos de origem","Comprovantes de entrega ou recebimento","Relatórios de utilização ou destinação","Fotos ou outras evidências","Não se aplica","Outros"]),
   q("q20","Depois de recebido, o que acontece com o apoio? Ele é armazenado, distribuído, consumido, utilizado em atividades ou encaminhado a algum setor? Descreva o fluxo.","textarea"),
   q("q21","Como o CIP registra a destinação de cada apoio, quem o recebeu ou utilizou e quem ficou responsável por esse encaminhamento? Existem restrições de uso ou validade?","textarea")
  ]},
@@ -65,7 +65,7 @@ const sections = [
   q("q44","O que precisa ser considerado para que pessoas com diferentes níveis de familiaridade com tecnologia consigam utilizar o sistema sem dificuldade?","textarea")
  ]},
  {title:"Segurança, prioridades e observações",intro:"Para finalizar, vamos definir cuidados importantes e o que deve ser entregue primeiro.",questions:[
-  q("q45","Quais tipos de informação serão registrados e precisam de cuidado especial, como dados pessoais, documentos, informações institucionais ou valores estimados dos apoios?","multi",["Dados pessoais de apoiadores","Dados financeiros","Dados institucionais","Dados de beneficiários","Documentos e comprovantes","Não sei informar","Outros"]),
+  q("q45","Quais tipos de informação serão registrados e precisam de cuidado especial, como dados pessoais, documentos, informações institucionais ou valores estimados dos apoios?","multi",["Dados pessoais de apoiadores","Dados pessoais de alunos ou beneficiários","Dados da equipe","Dados institucionais","Valores estimados de bens ou serviços, quando aplicável","Documentos e comprovantes","Não sei informar","Outros"]),
   q("q46","Quais regras devem orientar a consulta, o compartilhamento, a alteração e a exclusão das informações? Há algum prazo para manter registros ou documentos?","textarea"),
   q("q47","Quais funções precisam estar disponíveis na primeira versão para resolver os problemas mais importantes da rotina? Explique por que são essenciais.","textarea"),
   q("q48","Quais melhorias seriam úteis, mas poderiam ser desenvolvidas depois da primeira versão?","textarea"),
