@@ -74,7 +74,7 @@ const sections = [
  ]}
 ];
 
-function q(id,label,type,options=[],required=true){return {id,label,type,options,required};}
+function q(id,label,type,options=[],required=false){return {id,label,type,options,required:false};}
 let current=0;
 const answers={};
 const root=document.querySelector("#app");
@@ -83,11 +83,11 @@ function escapeHtml(value=""){return String(value).replace(/[&<>"']/g,c=>({"&":"
 function valueFor(id){return answers[id] ?? (sections.flatMap(s=>s.questions).find(x=>x.id===id)?.type==="multi"?[]:"");}
 function renderQuestion(question){
  const val=valueFor(question.id);
- const req=question.required?'<span class="required">Obrigatória</span>':'<span class="optional">Opcional</span>';
+ const req='<span class="optional">Opcional</span>';
  let control="";
- if(question.type==="textarea") control=`<textarea name="${question.id}" rows="4" placeholder="Escreva sua resposta..." ${question.required?"required":""}>${escapeHtml(val)}</textarea>`;
- else if(question.type==="text"||question.type==="number") control=`<input type="${question.type}" name="${question.id}" value="${escapeHtml(val)}" ${question.required?"required":""} />`;
- else if(question.type==="radio") control=`<div class="choices">${question.options.map(o=>`<label class="choice"><input type="radio" name="${question.id}" value="${escapeHtml(o)}" ${val===o?"checked":""} ${question.required?"required":""}/><span>${escapeHtml(o)}</span></label>`).join("")}</div>`;
+ if(question.type==="textarea") control=`<textarea name="${question.id}" rows="4" placeholder="Escreva sua resposta..." >${escapeHtml(val)}</textarea>`;
+ else if(question.type==="text"||question.type==="number") control=`<input type="${question.type}" name="${question.id}" value="${escapeHtml(val)}"  />`;
+ else if(question.type==="radio") control=`<div class="choices">${question.options.map(o=>`<label class="choice"><input type="radio" name="${question.id}" value="${escapeHtml(o)}" ${val===o?"checked":""} /><span>${escapeHtml(o)}</span></label>`).join("")}</div>`;
  else control=`<div class="choices">${question.options.map(o=>`<label class="choice"><input type="checkbox" name="${question.id}" value="${escapeHtml(o)}" ${Array.isArray(val)&&val.includes(o)?"checked":""}/><span>${escapeHtml(o)}</span></label>`).join("")}</div>`;
  return `<fieldset class="question" data-question="${question.id}"><div class="question-head"><legend>${escapeHtml(question.label)}</legend>${req}</div>${control}</fieldset>`;
 }
@@ -100,7 +100,7 @@ function render(){
   <div class="intro"><p class="eyebrow">PROJETO DE DESENVOLVIMENTO DE SISTEMA</p><h1>Vamos entender como o CiP funciona.</h1><p>Este questionário busca conhecer os processos, necessidades e prioridades da instituição para orientar o desenvolvimento de um sistema de gestão. Não existem respostas certas ou erradas: queremos compreender a rotina real.</p><div class="meta"><span>◷ Aproximadamente 15–20 minutos</span><span>▤ ${sections.reduce((n,s)=>n+s.questions.length,0)} perguntas</span></div></div>
   <div class="progress-card"><div class="progress-label"><span>Etapa ${current+1} de ${sections.length}</span><b>${percent}% concluído</b></div><div class="progress"><i style="width:${percent}%"></i></div><div class="steps">${sections.map((s,i)=>`<span class="${i===current?"active":i<current?"done":""}">${i+1}</span>`).join("")}</div></div>
   <form id="survey" novalidate>
-   <section class="section-card"><div class="section-count">ETAPA 0${current+1}</div><h2>${section.title}</h2><p class="section-intro">${section.intro}</p><div class="respondent-fields">${current===0?`<label>Nome de quem está respondendo<input name="respondent_name" id="respondent_name" placeholder="Seu nome" value="${escapeHtml(answers.respondent_name||"")}" required /></label><label>Função / cargo<input name="respondent_role" id="respondent_role" placeholder="Sua função no CiP" value="${escapeHtml(answers.respondent_role||"")}" required /></label>`:""}</div>
+   <section class="section-card"><div class="section-count">ETAPA 0${current+1}</div><h2>${section.title}</h2><p class="section-intro">${section.intro}</p><div class="respondent-fields">${current===0?`<label>Nome de quem está respondendo<input name="respondent_name" id="respondent_name" placeholder="Seu nome" value="${escapeHtml(answers.respondent_name||"")}" required /></label><label>Função / cargo<input name="respondent_role" id="respondent_role" placeholder="Sua função no CiP" value="${escapeHtml(answers.respondent_role||"")}" /></label>`:""}</div>
     <div class="questions">${section.questions.map(renderQuestion).join("")}</div>
    </section>
    <div class="nav"><button type="button" class="btn secondary" id="back" ${current===0?"disabled":""}>← Voltar</button><span class="autosave">Suas respostas ficam nesta página até o envio.</span>${current===sections.length-1?'<button type="submit" class="btn primary">Enviar respostas <span>→</span></button>':'<button type="button" class="btn primary" id="next">Próxima etapa <span>→</span></button>'}</div>
@@ -134,28 +134,30 @@ function captureAll(){
  });
 }
 function validateCurrent(){
- const section=sections[current];
- for(const question of section.questions){
-  if(!question.required)continue;
-  const value=answers[question.id];
-  const empty=Array.isArray(value)?value.length===0:!String(value||"").trim();
-  if(empty){const el=root.querySelector(`[data-question="${question.id}"]`);el?.scrollIntoView({behavior:"smooth",block:"center"});el?.classList.add("invalid");setTimeout(()=>el?.classList.remove("invalid"),1800);return false;}
- }
- if(current===0&&(!answers.respondent_name?.trim()||!answers.respondent_role?.trim())){
-  const el=root.querySelector("#respondent_name");el?.reportValidity();return false;
+ if(current===0&&!answers.respondent_name?.trim()){
+  const el=root.querySelector('#respondent_name');el?.reportValidity();return false;
  }
  return true;
 }
 async function submit(event){
  event.preventDefault();captureAll();
  if(!validateCurrent())return;
- if(!supabase){showError("A conexão com o banco de dados ainda não foi configurada. Avise a equipe responsável.");return;}
- const button=root.querySelector('button[type="submit"]');button.disabled=true;button.textContent="Enviando...";
- const payload={respondent_name:answers.respondent_name,respondent_role:answers.respondent_role,answers,submitted_at:new Date().toISOString(),form_version:"1.0"};
- const {error}=await supabase.from("cip_responses").insert(payload);
- if(error){console.error(error);button.disabled=false;button.innerHTML='Enviar respostas <span>→</span>';showError("Não foi possível enviar agora. Verifique sua conexão e tente novamente.");return;}
- root.innerHTML=`<main class="success-wrap"><div class="success-card"><div class="success-icon">✓</div><p class="eyebrow">RESPOSTA REGISTRADA</p><h1>Obrigado pela colaboração.</h1><p>Suas respostas foram enviadas com sucesso e já estão armazenadas para análise pela equipe do projeto.</p><div class="success-note">Você já pode fechar esta página.</div></div></main>`;
- window.scrollTo({top:0,behavior:"smooth"});
+ const unanswered=sections.flatMap(section=>section.questions.filter(question=>{
+  const value=answers[question.id];
+  return Array.isArray(value)?value.length===0:!String(value??'').trim();
+ }));
+ if(unanswered.length){
+  const list=unanswered.map(question=>'• '+question.label).join('\n');
+  const proceed=confirm('Algumas perguntas ficaram sem resposta:\n\n'+list+'\n\nVocê pode voltar e preenchê-las ou escolher OK para enviar assim mesmo. Deseja enviar sem completar?');
+  if(!proceed)return;
+ }
+ if(!supabase){showError('A conexão com o banco de dados ainda não foi configurada. Avise a equipe responsável.');return;}
+ const button=root.querySelector('button[type="submit"]');button.disabled=true;button.textContent='Enviando...';
+ const payload={respondent_name:answers.respondent_name,respondent_role:answers.respondent_role?.trim()||'Não informado',answers,submitted_at:new Date().toISOString(),form_version:'1.1'};
+ const {error}=await supabase.from('cip_responses').insert(payload);
+ if(error){console.error(error);button.disabled=false;button.innerHTML='Enviar respostas →';showError('Não foi possível enviar agora. Verifique sua conexão e tente novamente.');return;}
+ root.innerHTML='<main class="success-wrap"><div class="success-card"><div class="success-icon">✓</div><p class="eyebrow">RESPOSTA REGISTRADA</p><h1>Obrigado pela colaboração.</h1><p>Suas respostas foram enviadas com sucesso e já estão armazenadas para análise pela equipe do projeto.</p><div class="success-note">Você já pode fechar esta página.</div></div></main>';
+ window.scrollTo({top:0,behavior:'smooth'});
 }
 function showError(message){
  let el=root.querySelector(".error-message");
