@@ -139,6 +139,17 @@ function validateCurrent(){
  }
  return true;
 }
+function panelScroll(){root.querySelector('.pending-review')?.scrollIntoView({behavior:'smooth',block:'start'});}
+function renderPendingReview(unanswered){
+ const panel=document.createElement('section');panel.className='section-card pending-review';
+ panel.innerHTML='<div class="section-count">REVISÃO FINAL</div><h2>Estas perguntas ficaram em branco</h2><p class="section-intro">Você pode voltar às etapas para responder ou enviar o questionário como está.</p><ul>'+unanswered.map(question=>{
+  const sectionIndex=sections.findIndex(section=>section.questions.some(item=>item.id===question.id));
+  return '<li><span>'+escapeHtml(question.label)+'</span><button type="button" class="review-jump" data-section="'+sectionIndex+'">Etapa '+(sectionIndex+1)+'</button></li>';
+ }).join('')+'</ul><button type="button" class="btn primary" id="send-anyway">Enviar mesmo assim →</button>';
+ root.querySelector('#survey').append(panel);
+ panel.querySelectorAll('[data-section]').forEach(button=>button.addEventListener('click',()=>{current=Number(button.dataset.section);render();window.scrollTo({top:0,behavior:'smooth'});}));
+ panel.querySelector('#send-anyway').addEventListener('click',()=>sendAnswers());
+}
 async function submit(event){
  event.preventDefault();captureAll();
  if(!validateCurrent())return;
@@ -146,11 +157,7 @@ async function submit(event){
   const value=answers[question.id];
   return Array.isArray(value)?value.length===0:!String(value??'').trim();
  }));
- if(unanswered.length){
-  const list=unanswered.map(question=>'• '+question.label).join('\n');
-  const proceed=confirm('Algumas perguntas ficaram sem resposta:\n\n'+list+'\n\nVocê pode voltar e preenchê-las ou escolher OK para enviar assim mesmo. Deseja enviar sem completar?');
-  if(!proceed)return;
- }
+ if(unanswered.length){renderPendingReview(unanswered);panelScroll();return;}
  if(!supabase){showError('A conexão com o banco de dados ainda não foi configurada. Avise a equipe responsável.');return;}
  const button=root.querySelector('button[type="submit"]');button.disabled=true;button.textContent='Enviando...';
  const payload={respondent_name:answers.respondent_name,respondent_role:answers.respondent_role?.trim()||'Não informado',answers,submitted_at:new Date().toISOString(),form_version:'1.1'};
