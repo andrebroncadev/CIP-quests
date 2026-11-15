@@ -13,14 +13,24 @@ header,main,footer{max-width:1040px;margin:auto;padding:0 26px}header{padding-to
 h1{font-size:34px;line-height:1.15;font-weight:600;margin:12px 0 8px}h2{font-size:23px;font-weight:600;margin:42px 0 14px;padding-bottom:7px;border-bottom:1px solid var(--line)}h3{font-size:17px;margin:25px 0 9px;font-weight:600}
 p{margin:8px 0 12px}.meta{color:var(--muted);font-size:13px}.lead{font-size:17px;max-width:760px}
 nav{display:flex;flex-wrap:wrap;gap:8px 18px;padding:16px 0;font-size:13px}a{color:#174ea6;text-decoration:none}a:hover{text-decoration:underline}
-main{padding-top:20px;padding-bottom:60px}ul,ol{padding-left:22px}li{margin:4px 0}
+main{padding-top:20px;padding-bottom:60px}
+.diagram-section{max-width:1200px}
+.diagram-page{min-height:760px;padding:34px 38px 42px;margin:24px 0 48px;border:1px solid #c8d0d8;background-color:#fff;background-image:linear-gradient(#eef1f4 1px,transparent 1px),linear-gradient(90deg,#eef1f4 1px,transparent 1px);background-size:20px 20px;position:relative}
+.diagram-page h2{margin:8px 0 6px;padding:0;border:0;font-size:25px;color:#24364b}
+.page-kicker{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:#687887}
+.page-subtitle{font-size:13px;color:#5e6b75;margin:0 0 26px}
+.page-note{font-size:12px;color:#5e6b75;border-top:1px solid #cbd3da;padding-top:12px;margin-top:22px}
+.diagram-page .diagram{background:#fff;border:1px solid #cbd3da;padding:22px 14px;margin:0;min-height:440px;display:flex;align-items:center;justify-content:center}
+.diagram-page .diagram svg{width:100%;max-height:590px}
+.diagram-page:nth-child(5) .diagram{min-height:570px}
+.diagram-page:nth-child(5) .diagram svg{max-height:650px}ul,ol{padding-left:22px}li{margin:4px 0}
 table{width:100%;border-collapse:collapse;margin:12px 0 22px;font-size:13px}th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}th{font-weight:600;background:var(--soft)}
 code,pre{font-family:Consolas,Monaco,monospace}pre{white-space:pre-wrap;background:var(--soft);padding:15px;border-left:2px solid #777;font-size:13px;line-height:1.5;overflow:auto}
 .diagram{margin:16px 0 24px;overflow-x:auto;border-bottom:1px solid var(--line);padding:8px 0 18px}.diagram svg{display:block;max-width:100%;height:auto;margin:auto}.diagram text{font-family:Arial,sans-serif;fill:#222}
 .small{font-size:12px;color:var(--muted)}.tag{display:inline-block;font-size:11px;border:1px solid var(--line);padding:2px 7px;margin-right:5px}
 footer{border-top:1px solid var(--line);padding-top:18px;padding-bottom:35px;color:var(--muted);font-size:12px}
 @media(max-width:650px){header,main,footer{padding-left:17px;padding-right:17px}h1{font-size:28px}h2{font-size:20px}table{font-size:12px}th,td{padding:7px 6px}}
-@media print{nav{display:none}body{font-size:11pt}header,main,footer{max-width:none;padding-left:0;padding-right:0}h2{break-after:avoid}.diagram{break-inside:avoid}a{color:inherit}}
+@media print{nav{display:none}.diagram-page{break-after:page;page-break-after:always;min-height:0;margin:0;padding:12mm;border:0;background:#fff}.diagram-page:last-child{break-after:auto;page-break-after:auto}.diagram-page .diagram{break-inside:avoid;background:#fff}.diagram-page h2{break-after:avoid}body{font-size:11pt}header,main,footer{max-width:none;padding-left:0;padding-right:0}h2{break-after:avoid}.diagram{break-inside:avoid}a{color:inherit}}
 </style>
 </head>
 <body>
@@ -30,7 +40,7 @@ footer{border-top:1px solid var(--line);padding-top:18px;padding-bottom:35px;col
 <p class="lead">CiP — Centro de Integração e Promoção</p>
 <p class="meta">Levantamento respondido por Nívea Quinsan · Diretora · 14/11/2026<br>Documento de trabalho · 15/11/2026</p>
 <nav>
-<a href="#visao">Visão geral</a><a href="#escopo">Escopo</a><a href="#rf">RF</a><a href="#rnf">RNF</a><a href="#regras">Regras</a><a href="#uml">UML</a><a href="#dados">Dados</a><a href="#algoritmos">Algoritmos</a><a href="#aceite">Aceitação</a><a href="#pendencias">Pendências</a>
+<a href="#visao">Visão geral</a><a href="#escopo">Escopo</a><a href="#rf">RF</a><a href="#rnf">RNF</a><a href="#regras">Regras</a><a href="#diagramas">Diagramas</a><a href="#dados">Dados</a><a href="#algoritmos">Algoritmos</a><a href="#aceite">Aceitação</a><a href="#pendencias">Pendências</a>
 </nav>
 </header>
 <main>
@@ -128,26 +138,19 @@ footer{border-top:1px solid var(--line);padding-top:18px;padding-bottom:35px;col
 </tbody></table>
 </section>
 
-<section id="uml">
-<h2>6. Diagramas UML</h2>
-<h3>6.1 Casos de uso</h3>
-<div class="diagram">
-<svg viewBox="0 0 900 480" role="img" aria-label="Diagrama UML de casos de uso">
-<rect x="190" y="35" width="520" height="405" fill="none" stroke="#555" stroke-dasharray="6 5"/>
-<text x="450" y="25" text-anchor="middle" font-size="15">Sistema de Gestão de Apoiadores e Apoios — CiP</text>
-<g stroke="#222" fill="none" stroke-width="1.4">
-<circle cx="85" cy="220" r="18"/><path d="M85 238v65m-28-38h56m-28 38-25 42m25-42 25 42"/>
-<circle cx="815" cy="145" r="18"/><path d="M815 163v65m-28-38h56m-28 38-25 42m25-42 25 42"/>
-<circle cx="815" cy="340" r="18"/><path d="M815 358v55m-28-32h56m-28 32-25 35m25-35 25 35"/>
-<g fill="#fff"><ellipse cx="330" cy="100" rx="105" ry="30"/><ellipse cx="565" cy="100" rx="105" ry="30"/><ellipse cx="330" cy="205" rx="105" ry="30"/><ellipse cx="565" cy="205" rx="105" ry="30"/><ellipse cx="330" cy="310" rx="105" ry="30"/><ellipse cx="565" cy="310" rx="105" ry="30"/><ellipse cx="450" cy="395" rx="115" ry="27"/></g>
-<g stroke-width="1"><path d="M112 220 225 100M112 220 225 205M112 220 225 310M112 220 450 395M788 145 670 100M788 145 670 205M788 145 670 310M788 145 450 395M788 340 670 310M788 340 565 205M788 340 450 395"/></g>
+
+<section id="diagramas" class="diagram-section">
+<div class="diagram-page"><div class="page-kicker">CiP · Projeto Integrador</div><h2>1. Fluxograma</h2><p class="page-subtitle">Ciclo de vida de uma oferta de apoio, da entrada à prestação de contas.</p><div class="diagram">
+<svg viewBox="0 0 700 560" role="img" aria-label="Diagrama de atividades do ciclo de um apoio">
+<g stroke="#333" fill="white" stroke-width="1.4">
+<ellipse cx="350" cy="28" rx="30" ry="16"/><rect x="235" y="70" width="230" height="48"/><rect x="235" y="155" width="230" height="48"/><polygon points="350,230 420,275 350,320 280,275"/><rect x="485" y="250" width="170" height="50"/><rect x="235" y="350" width="230" height="48"/><rect x="235" y="430" width="230" height="48"/><ellipse cx="350" cy="525" rx="70" ry="22"/>
 </g>
-<g font-size="13" text-anchor="middle"><text x="330" y="105">Manter apoiadores e contatos</text><text x="565" y="105">Registrar e acompanhar apoios</text><text x="330" y="210">Registrar interações e tarefas</text><text x="565" y="210">Consultar projetos e destinações</text><text x="330" y="315">Emitir relatórios e prestação</text><text x="565" y="315">Consultar histórico e auditoria</text><text x="450" y="400">Gerenciar usuários e permissões</text>
-<text x="85" y="390">Administrativo</text><text x="815" y="285">Direção / Coordenação</text><text x="815" y="470">Administrador</text></g>
+<g font-size="13" text-anchor="middle"><text x="350" y="33">Início</text><text x="350" y="99">Registrar oferta e apoiador</text><text x="350" y="184">Avaliar oferta</text><text x="350" y="279">Aceita?</text><text x="570" y="280">Registrar recusa</text><text x="350" y="379">Aguardar entrega</text><text x="350" y="459">Registrar recebimento</text><text x="350" y="530">Destinar e prestar contas</text></g>
+<g stroke="#333" fill="none" stroke-width="1.4"><path d="M350 44V70M350 118V155M350 203V230M350 320V350M350 398V430M350 478V500M420 275H485"/></g>
+<g font-size="11"><text x="365" y="338">Sim</text><text x="445" y="263">Não</text></g>
 </svg>
-</div>
-<h3>6.2 Classes — modelo de domínio</h3>
-<div class="diagram">
+</div><p class="page-note">O fluxo contempla avaliação, recusa, recebimento parcial ou integral e destinação.</p></div>
+<div class="diagram-page"><div class="page-kicker">CiP · Projeto Integrador</div><h2>2. Diagrama de classes</h2><p class="page-subtitle">Estrutura estática do domínio e principais atributos.</p><div class="diagram">
 <svg viewBox="0 0 1000 650" role="img" aria-label="Diagrama UML de classes do sistema">
 <g fill="white" stroke="#333" stroke-width="1.2">
 <rect x="15" y="25" width="190" height="125"/><rect x="270" y="25" width="190" height="125"/><rect x="525" y="25" width="190" height="125"/><rect x="780" y="25" width="190" height="125"/>
@@ -162,21 +165,72 @@ footer{border-top:1px solid var(--line);padding-top:18px;padding-bottom:35px;col
 <g stroke="#555" fill="none" stroke-width="1.2"><path d="M205 90H270M460 90H525M715 90H780M110 150V260M365 150V260M620 150V260M875 150V260M120 380V485M370 380V485M620 380V485M875 380V485"/></g>
 <g font-size="10" fill="#555"><text x="225" y="82">1 : N</text><text x="480" y="82">1 : N</text><text x="735" y="82">N : N*</text><text x="125" y="205">1 : N</text><text x="375" y="205">1 : N</text><text x="630" y="205">1 : N</text></g>
 </svg>
-</div>
-<p class="small">*A relação muitos-para-muitos entre Apoio e Projeto é resolvida por ApoioProjeto. Diagrama conceitual; cardinalidades e campos serão detalhados no DER.</p>
-<h3>6.3 Atividades — ciclo de um apoio</h3>
-<div class="diagram">
-<svg viewBox="0 0 700 560" role="img" aria-label="Diagrama de atividades do ciclo de um apoio">
-<g stroke="#333" fill="white" stroke-width="1.4">
-<ellipse cx="350" cy="28" rx="30" ry="16"/><rect x="235" y="70" width="230" height="48"/><rect x="235" y="155" width="230" height="48"/><polygon points="350,230 420,275 350,320 280,275"/><rect x="485" y="250" width="170" height="50"/><rect x="235" y="350" width="230" height="48"/><rect x="235" y="430" width="230" height="48"/><ellipse cx="350" cy="525" rx="70" ry="22"/>
+</div><p class="page-note">Modelo conceitual inicial. Métodos, tipos e cardinalidades serão detalhados durante a implementação.</p></div>
+<div class="diagram-page"><div class="page-kicker">CiP · Projeto Integrador</div><h2>3. Diagrama de casos de uso</h2><p class="page-subtitle">Atores e funcionalidades disponíveis no sistema.</p><div class="diagram">
+<svg viewBox="0 0 900 480" role="img" aria-label="Diagrama UML de casos de uso">
+<rect x="190" y="35" width="520" height="405" fill="none" stroke="#555" stroke-dasharray="6 5"/>
+<text x="450" y="25" text-anchor="middle" font-size="15">Sistema de Gestão de Apoiadores e Apoios — CiP</text>
+<g stroke="#222" fill="none" stroke-width="1.4">
+<circle cx="85" cy="220" r="18"/><path d="M85 238v65m-28-38h56m-28 38-25 42m25-42 25 42"/>
+<circle cx="815" cy="145" r="18"/><path d="M815 163v65m-28-38h56m-28 38-25 42m25-42 25 42"/>
+<circle cx="815" cy="340" r="18"/><path d="M815 358v55m-28-32h56m-28 32-25 35m25-35 25 35"/>
+<g fill="#fff"><ellipse cx="330" cy="100" rx="105" ry="30"/><ellipse cx="565" cy="100" rx="105" ry="30"/><ellipse cx="330" cy="205" rx="105" ry="30"/><ellipse cx="565" cy="205" rx="105" ry="30"/><ellipse cx="330" cy="310" rx="105" ry="30"/><ellipse cx="565" cy="310" rx="105" ry="30"/><ellipse cx="450" cy="395" rx="115" ry="27"/></g>
+<g stroke-width="1"><path d="M112 220 225 100M112 220 225 205M112 220 225 310M112 220 450 395M788 145 670 100M788 145 670 205M788 145 670 310M788 145 450 395M788 340 670 310M788 340 565 205M788 340 450 395"/></g>
 </g>
-<g font-size="13" text-anchor="middle"><text x="350" y="33">Início</text><text x="350" y="99">Registrar oferta e apoiador</text><text x="350" y="184">Avaliar oferta</text><text x="350" y="279">Aceita?</text><text x="570" y="280">Registrar recusa</text><text x="350" y="379">Aguardar entrega</text><text x="350" y="459">Registrar recebimento</text><text x="350" y="530">Destinar e prestar contas</text></g>
-<g stroke="#333" fill="none" stroke-width="1.4"><path d="M350 44V70M350 118V155M350 203V230M350 320V350M350 398V430M350 478V500M420 275H485"/></g>
-<g font-size="11"><text x="365" y="338">Sim</text><text x="445" y="263">Não</text></g>
+<g font-size="13" text-anchor="middle"><text x="330" y="105">Manter apoiadores e contatos</text><text x="565" y="105">Registrar e acompanhar apoios</text><text x="330" y="210">Registrar interações e tarefas</text><text x="565" y="210">Consultar projetos e destinações</text><text x="330" y="315">Emitir relatórios e prestação</text><text x="565" y="315">Consultar histórico e auditoria</text><text x="450" y="400">Gerenciar usuários e permissões</text>
+<text x="85" y="390">Administrativo</text><text x="815" y="285">Direção / Coordenação</text><text x="815" y="470">Administrador</text></g>
 </svg>
-</div>
-<h3>6.4 Sequência — registro de apoio</h3>
-<div class="diagram">
+</div><p class="page-note">Perfis e permissões finais dependem da validação da instituição.</p></div>
+<div class="diagram-page"><div class="page-kicker">CiP · Projeto Integrador</div><h2>4. Diagrama de relacionamento</h2><p class="page-subtitle">Visão das ligações entre os principais registros.</p><div class="diagram"><svg viewBox="1000 520" role="img" aria-label="Diagrama de relacionamento entre entidades">
+<defs><marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0 0L6 3L0 6" fill="none" stroke="#526579"/></marker></defs>
+<g><rect x="35" y="40" width="190" height="100" rx="0" fill="#fff" stroke="#526579" stroke-width="1.5"/><path d="M35 70H225" stroke="#526579"/><text x="130" y="60" text-anchor="middle" font-size="14" font-weight="bold" fill="#24364b">APOIADOR</text><text x="45" y="89" font-size="11" fill="#263238">id · nome · tipo · documento</text></g>
+<g><rect x="400" y="40" width="190" height="100" rx="0" fill="#fff" stroke="#526579" stroke-width="1.5"/><path d="M400 70H590" stroke="#526579"/><text x="495" y="60" text-anchor="middle" font-size="14" font-weight="bold" fill="#24364b">CONTATO</text><text x="410" y="89" font-size="11" fill="#263238">id · nome · função · principal</text></g>
+<g><rect x="35" y="210" width="190" height="100" rx="0" fill="#fff" stroke="#526579" stroke-width="1.5"/><path d="M35 240H225" stroke="#526579"/><text x="130" y="230" text-anchor="middle" font-size="14" font-weight="bold" fill="#24364b">APOIO</text><text x="45" y="259" font-size="11" fill="#263238">id · tipo · valor · situação</text></g>
+<g><rect x="400" y="210" width="190" height="100" rx="0" fill="#fff" stroke="#526579" stroke-width="1.5"/><path d="M400 240H590" stroke="#526579"/><text x="495" y="230" text-anchor="middle" font-size="14" font-weight="bold" fill="#24364b">RECEBIMENTO</text><text x="410" y="259" font-size="11" fill="#263238">id · data · quantidade</text></g>
+<g><rect x="760" y="40" width="190" height="100" rx="0" fill="#fff" stroke="#526579" stroke-width="1.5"/><path d="M760 70H950" stroke="#526579"/><text x="855" y="60" text-anchor="middle" font-size="14" font-weight="bold" fill="#24364b">PROJETO</text><text x="770" y="89" font-size="11" fill="#263238">id · nome · setor · responsável</text></g>
+<g><rect x="760" y="210" width="190" height="100" rx="0" fill="#fff" stroke="#526579" stroke-width="1.5"/><path d="M760 240H950" stroke="#526579"/><text x="855" y="230" text-anchor="middle" font-size="14" font-weight="bold" fill="#24364b">APOIO_PROJETO</text><text x="770" y="259" font-size="11" fill="#263238">apoio_id · projeto_id · quantidade</text></g>
+<g><rect x="400" y="390" width="190" height="100" rx="0" fill="#fff" stroke="#526579" stroke-width="1.5"/><path d="M400 420H590" stroke="#526579"/><text x="495" y="410" text-anchor="middle" font-size="14" font-weight="bold" fill="#24364b">DESTINAÇÃO</text><text x="410" y="439" font-size="11" fill="#263238">data · quantidade · responsável</text></g>
+<path d="M225 90H400" fill="none" stroke="#526579" stroke-width="1.5"/><text x="290" y="80" font-size="11" fill="#34495e">1 : N</text>
+<path d="M130 140V210" fill="none" stroke="#526579" stroke-width="1.5"/><text x="145" y="180" font-size="11" fill="#34495e">1 : N</text>
+<path d="M225 260H400" fill="none" stroke="#526579" stroke-width="1.5"/><text x="290" y="250" font-size="11" fill="#34495e">1 : N</text>
+<path d="M590 260H760" fill="none" stroke="#526579" stroke-width="1.5"/><text x="665" y="250" font-size="11" fill="#34495e">N : 1</text>
+<path d="M855 140V210" fill="none" stroke="#526579" stroke-width="1.5"/><text x="870" y="180" font-size="11" fill="#34495e">1 : N</text>
+<path d="M495 310V390" fill="none" stroke="#526579" stroke-width="1.5"/><text x="505" y="355" font-size="11" fill="#34495e">1 : N</text>
+<text x="500" y="515" text-anchor="middle" font-size="11" fill="#667">Relacionamentos principais; tabelas associativas resolvem vínculos N:N.</text></svg></div><p class="page-note">A relação entre apoio e projeto é muitos-para-muitos e utiliza uma entidade associativa.</p></div>
+<div class="diagram-page"><div class="page-kicker">CiP · Projeto Integrador</div><h2>5. DER — Diagrama Entidade-Relacionamento</h2><p class="page-subtitle">Modelo lógico preliminar, com chaves primárias (PK) e estrangeiras (FK).</p><div class="diagram"><svg viewBox="1200 720" role="img" aria-label="Diagrama entidade relacionamento lógico">
+<g><rect x="20" y="25" width="220" height="130" rx="0" fill="#fff" stroke="#526579" stroke-width="1.5"/><path d="M20 55H240" stroke="#526579"/><text x="130" y="45" text-anchor="middle" font-size="14" font-weight="bold" fill="#24364b">APOIADOR</text><text x="30" y="74" font-size="11" fill="#263238">PK id_apoiador</text><text x="30" y="93" font-size="11" fill="#263238">tipo_pessoa, nome_razao_social</text><text x="30" y="112" font-size="11" fill="#263238">documento, telefone, email</text><text x="30" y="131" font-size="11" fill="#263238">endereco, status</text></g>
+<g><rect x="320" y="25" width="220" height="130" rx="0" fill="#fff" stroke="#526579" stroke-width="1.5"/><path d="M320 55H540" stroke="#526579"/><text x="430" y="45" text-anchor="middle" font-size="14" font-weight="bold" fill="#24364b">CONTATO</text><text x="330" y="74" font-size="11" fill="#263238">PK id_contato</text><text x="330" y="93" font-size="11" fill="#263238">FK id_apoiador</text><text x="330" y="112" font-size="11" fill="#263238">nome, funcao, telefone</text><text x="330" y="131" font-size="11" fill="#263238">email, principal</text></g>
+<g><rect x="620" y="25" width="240" height="150" rx="0" fill="#fff" stroke="#526579" stroke-width="1.5"/><path d="M620 55H860" stroke="#526579"/><text x="740" y="45" text-anchor="middle" font-size="14" font-weight="bold" fill="#24364b">APOIO</text><text x="630" y="74" font-size="11" fill="#263238">PK id_apoio</text><text x="630" y="93" font-size="11" fill="#263238">FK id_apoiador</text><text x="630" y="112" font-size="11" fill="#263238">tipo, descricao, quantidade</text><text x="630" y="131" font-size="11" fill="#263238">unidade, valor_estimado, status</text></g>
+<g><rect x="920" y="25" width="250" height="150" rx="0" fill="#fff" stroke="#526579" stroke-width="1.5"/><path d="M920 55H1170" stroke="#526579"/><text x="1045" y="45" text-anchor="middle" font-size="14" font-weight="bold" fill="#24364b">APOIO_PROJETO</text><text x="930" y="74" font-size="11" fill="#263238">PK id_apoio_projeto</text><text x="930" y="93" font-size="11" fill="#263238">FK id_apoio · FK id_projeto</text><text x="930" y="112" font-size="11" fill="#263238">quantidade_destinada</text></g>
+<g><rect x="920" y="260" width="250" height="130" rx="0" fill="#fff" stroke="#526579" stroke-width="1.5"/><path d="M920 290H1170" stroke="#526579"/><text x="1045" y="280" text-anchor="middle" font-size="14" font-weight="bold" fill="#24364b">PROJETO</text><text x="930" y="309" font-size="11" fill="#263238">PK id_projeto</text><text x="930" y="328" font-size="11" fill="#263238">nome, modulo_setor</text><text x="930" y="347" font-size="11" fill="#263238">responsavel_id, status</text></g>
+<g><rect x="620" y="260" width="240" height="130" rx="0" fill="#fff" stroke="#526579" stroke-width="1.5"/><path d="M620 290H860" stroke="#526579"/><text x="740" y="280" text-anchor="middle" font-size="14" font-weight="bold" fill="#24364b">RECEBIMENTO</text><text x="630" y="309" font-size="11" fill="#263238">PK id_recebimento</text><text x="630" y="328" font-size="11" fill="#263238">FK id_apoio</text><text x="630" y="347" font-size="11" fill="#263238">data, quantidade, responsavel_id</text></g>
+<g><rect x="320" y="260" width="220" height="130" rx="0" fill="#fff" stroke="#526579" stroke-width="1.5"/><path d="M320 290H540" stroke="#526579"/><text x="430" y="280" text-anchor="middle" font-size="14" font-weight="bold" fill="#24364b">DESTINACAO</text><text x="330" y="309" font-size="11" fill="#263238">PK id_destinacao</text><text x="330" y="328" font-size="11" fill="#263238">FK id_apoio_projeto</text><text x="330" y="347" font-size="11" fill="#263238">data, quantidade, setor</text></g>
+<g><rect x="20" y="260" width="220" height="130" rx="0" fill="#fff" stroke="#526579" stroke-width="1.5"/><path d="M20 290H240" stroke="#526579"/><text x="130" y="280" text-anchor="middle" font-size="14" font-weight="bold" fill="#24364b">INTERACAO</text><text x="30" y="309" font-size="11" fill="#263238">PK id_interacao</text><text x="30" y="328" font-size="11" fill="#263238">FK id_apoiador · FK id_usuario</text><text x="30" y="347" font-size="11" fill="#263238">canal, assunto, resumo, data</text></g>
+<g><rect x="20" y="500" width="220" height="130" rx="0" fill="#fff" stroke="#526579" stroke-width="1.5"/><path d="M20 530H240" stroke="#526579"/><text x="130" y="520" text-anchor="middle" font-size="14" font-weight="bold" fill="#24364b">TAREFA</text><text x="30" y="549" font-size="11" fill="#263238">PK id_tarefa</text><text x="30" y="568" font-size="11" fill="#263238">FK id_responsavel</text><text x="30" y="587" font-size="11" fill="#263238">prazo, prioridade, status</text></g>
+<g><rect x="320" y="500" width="220" height="130" rx="0" fill="#fff" stroke="#526579" stroke-width="1.5"/><path d="M320 530H540" stroke="#526579"/><text x="430" y="520" text-anchor="middle" font-size="14" font-weight="bold" fill="#24364b">DOCUMENTO</text><text x="330" y="549" font-size="11" fill="#263238">PK id_documento</text><text x="330" y="568" font-size="11" fill="#263238">vinculo_entidade, entidade_id</text><text x="330" y="587" font-size="11" fill="#263238">nome, tipo, caminho_arquivo</text></g>
+<g><rect x="620" y="500" width="240" height="130" rx="0" fill="#fff" stroke="#526579" stroke-width="1.5"/><path d="M620 530H860" stroke="#526579"/><text x="740" y="520" text-anchor="middle" font-size="14" font-weight="bold" fill="#24364b">USUARIO</text><text x="630" y="549" font-size="11" fill="#263238">PK id_usuario</text><text x="630" y="568" font-size="11" fill="#263238">FK id_perfil</text><text x="630" y="587" font-size="11" fill="#263238">nome, email, senha_hash, ativo</text></g>
+<g><rect x="920" y="500" width="250" height="130" rx="0" fill="#fff" stroke="#526579" stroke-width="1.5"/><path d="M920 530H1170" stroke="#526579"/><text x="1045" y="520" text-anchor="middle" font-size="14" font-weight="bold" fill="#24364b">AUDITORIA</text><text x="930" y="549" font-size="11" fill="#263238">PK id_auditoria</text><text x="930" y="568" font-size="11" fill="#263238">FK id_usuario</text><text x="930" y="587" font-size="11" fill="#263238">entidade, acao, data_hora</text></g>
+<path d="M240 90H320" fill="none" stroke="#526579" stroke-width="1.5"/><text x="270" y="80" font-size="11" fill="#34495e">1:N</text><path d="M540 90H620" fill="none" stroke="#526579" stroke-width="1.5"/><text x="570" y="80" font-size="11" fill="#34495e">1:N</text>
+<path d="M860 90H920" fill="none" stroke="#526579" stroke-width="1.5"/><text x="880" y="80" font-size="11" fill="#34495e">1:N</text><path d="M1045 175V260" fill="none" stroke="#526579" stroke-width="1.5"/><text x="1055" y="225" font-size="11" fill="#34495e">N:1</text>
+<path d="M740 175V260" fill="none" stroke="#526579" stroke-width="1.5"/><text x="750" y="225" font-size="11" fill="#34495e">1:N</text><path d="M620 325H540" fill="none" stroke="#526579" stroke-width="1.5"/><text x="565" y="315" font-size="11" fill="#34495e">1:N</text>
+<path d="M130 155V260" fill="none" stroke="#526579" stroke-width="1.5"/><text x="140" y="220" font-size="11" fill="#34495e">1:N</text><path d="M130 390V500" fill="none" stroke="#526579" stroke-width="1.5"/><text x="140" y="455" font-size="11" fill="#34495e">1:N</text>
+<path d="M430 390V500" fill="none" stroke="#526579" stroke-width="1.5"/><text x="440" y="455" font-size="11" fill="#34495e">1:N</text><path d="M740 390V500" fill="none" stroke="#526579" stroke-width="1.5"/><text x="750" y="455" font-size="11" fill="#34495e">1:N</text>
+<path d="M860 565H920" fill="none" stroke="#526579" stroke-width="1.5"/><text x="880" y="555" font-size="11" fill="#34495e">1:N</text>
+</svg></div><p class="page-note">A estrutura deverá ser revisada antes da criação física do banco de dados.</p></div>
+<div class="diagram-page"><div class="page-kicker">CiP · Projeto Integrador</div><h2>6. MER — Modelo Entidade-Relacionamento</h2><p class="page-subtitle">Representação conceitual das entidades e relações do negócio.</p><div class="diagram"><svg viewBox="1000 540" role="img" aria-label="Modelo entidade relacionamento conceitual">
+<g><rect x="50" y="55" width="220" height="100" rx="0" fill="#fff" stroke="#526579" stroke-width="1.5"/><path d="M50 85H270" stroke="#526579"/><text x="160" y="75" text-anchor="middle" font-size="14" font-weight="bold" fill="#24364b">APOIADOR</text><text x="60" y="104" font-size="11" fill="#263238">Pessoa ou organização</text></g>
+<g><rect x="390" y="55" width="220" height="100" rx="0" fill="#fff" stroke="#526579" stroke-width="1.5"/><path d="M390 85H610" stroke="#526579"/><text x="500" y="75" text-anchor="middle" font-size="14" font-weight="bold" fill="#24364b">APOIO</text><text x="400" y="104" font-size="11" fill="#263238">Bem, serviço ou recurso</text></g>
+<g><rect x="730" y="55" width="220" height="100" rx="0" fill="#fff" stroke="#526579" stroke-width="1.5"/><path d="M730 85H950" stroke="#526579"/><text x="840" y="75" text-anchor="middle" font-size="14" font-weight="bold" fill="#24364b">PROJETO / SETOR</text><text x="740" y="104" font-size="11" fill="#263238">Destino institucional</text></g>
+<g><rect x="50" y="300" width="220" height="100" rx="0" fill="#fff" stroke="#526579" stroke-width="1.5"/><path d="M50 330H270" stroke="#526579"/><text x="160" y="320" text-anchor="middle" font-size="14" font-weight="bold" fill="#24364b">CONTATO</text><text x="60" y="349" font-size="11" fill="#263238">Interlocutores do apoiador</text></g>
+<g><rect x="390" y="300" width="220" height="100" rx="0" fill="#fff" stroke="#526579" stroke-width="1.5"/><path d="M390 330H610" stroke="#526579"/><text x="500" y="320" text-anchor="middle" font-size="14" font-weight="bold" fill="#24364b">RECEBIMENTO</text><text x="400" y="349" font-size="11" fill="#263238">Entrega total ou parcial</text></g>
+<g><rect x="730" y="300" width="220" height="100" rx="0" fill="#fff" stroke="#526579" stroke-width="1.5"/><path d="M730 330H950" stroke="#526579"/><text x="840" y="320" text-anchor="middle" font-size="14" font-weight="bold" fill="#24364b">DESTINAÇÃO</text><text x="740" y="349" font-size="11" fill="#263238">Uso ou distribuição</text></g>
+<path d="M270 105H390" fill="none" stroke="#526579" stroke-width="1.5"/><text x="295" y="92" font-size="11" fill="#34495e">oferece (1:N)</text>
+<path d="M610 105H730" fill="none" stroke="#526579" stroke-width="1.5"/><text x="635" y="92" font-size="11" fill="#34495e">atende (N:N)</text>
+<path d="M160 155V300" fill="none" stroke="#526579" stroke-width="1.5"/><text x="170" y="230" font-size="11" fill="#34495e">possui (1:N)</text>
+<path d="M500 155V300" fill="none" stroke="#526579" stroke-width="1.5"/><text x="510" y="230" font-size="11" fill="#34495e">é recebido em (1:N)</text>
+<path d="M840 155V300" fill="none" stroke="#526579" stroke-width="1.5"/><text x="850" y="230" font-size="11" fill="#34495e">gera (1:N)</text>
+</svg></div><p class="page-note">O MER apresenta os conceitos sem detalhar tipos de dados ou implementação.</p></div>
+<div class="diagram-page"><div class="page-kicker">CiP · Projeto Integrador</div><h2>7. Diagrama de sequência</h2><p class="page-subtitle">Troca de mensagens durante o registro de um apoio.</p><div class="diagram">
 <svg viewBox="0 0 900 430" role="img" aria-label="Diagrama de sequência para registrar apoio">
 <g fill="white" stroke="#333"><rect x="35" y="20" width="130" height="42"/><rect x="215" y="20" width="130" height="42"/><rect x="395" y="20" width="130" height="42"/><rect x="575" y="20" width="130" height="42"/><rect x="755" y="20" width="120" height="42"/></g>
 <g font-size="13" text-anchor="middle"><text x="100" y="46">Usuário</text><text x="280" y="46">Interface</text><text x="460" y="46">Backend</text><text x="640" y="46">Banco</text><text x="815" y="46">Auditoria</text></g>
@@ -184,16 +238,14 @@ footer{border-top:1px solid var(--line);padding-top:18px;padding-bottom:35px;col
 <g stroke="#333" fill="none" stroke-width="1.2"><path d="M100 100H280l-8 -5m8 5-8 5M280 155H460l-8 -5m8 5-8 5M460 210H640l-8 -5m8 5-8 5M640 265H460l8 -5m-8 5 8 5M460 320H815l-8 -5m8 5-8 5M460 365H280l8 -5m-8 5 8 5"/></g>
 <g font-size="12" text-anchor="middle"><text x="190" y="90">Preenche formulário</text><text x="370" y="145">Envia dados</text><text x="550" y="200">Valida e grava apoio</text><text x="550" y="255">Confirmação</text><text x="637" y="310">Registra evento</text><text x="370" y="355">Retorna resultado</text></g>
 </svg>
-</div>
-<h3>6.5 Arquitetura lógica proposta</h3>
-<div class="diagram">
+</div></div>
+<div class="diagram-page"><div class="page-kicker">CiP · Projeto Integrador</div><h2>8. Arquitetura lógica</h2><p class="page-subtitle">Organização proposta para interface, servidor, banco e arquivos.</p><div class="diagram">
 <svg viewBox="0 0 900 300" role="img" aria-label="Arquitetura lógica: navegador, servidor PHP, banco de dados e armazenamento">
 <g fill="white" stroke="#333" stroke-width="1.3"><rect x="20" y="70" width="230" height="125"/><rect x="335" y="70" width="230" height="125"/><rect x="650" y="70" width="230" height="125"/><rect x="335" y="225" width="230" height="60"/></g>
 <g font-size="14" text-anchor="middle"><text x="135" y="100" font-weight="bold">Dispositivo / PWA</text><text x="135" y="125">HTML, CSS e JavaScript</text><text x="135" y="148">IndexedDB · modo offline</text><text x="450" y="100" font-weight="bold">Servidor da aplicação</text><text x="450" y="125">PHP · validações · PDO</text><text x="450" y="148">Autenticação e regras</text><text x="765" y="100" font-weight="bold">Banco de dados</text><text x="765" y="125">MySQL / MariaDB</text><text x="765" y="148">Transações e integridade</text><text x="450" y="250" font-weight="bold">Arquivos e comprovantes</text><text x="450" y="270" font-size="11">Armazenamento protegido</text></g>
 <g stroke="#333" fill="none" stroke-width="1.3"><path d="M250 130H335l-8 -5m8 5-8 5M565 130H650l-8 -5m8 5-8 5M450 195V225l-5 -8m5 8 5 -8"/></g>
 </svg>
-</div>
-<p class="small">Arquitetura sugerida para o sistema final: HTML/CSS/JavaScript, PHP com PDO e banco relacional MySQL/MariaDB. IndexedDB pode manter operações locais. O projeto de questionário CIP-quests e seu banco de respostas são separados do banco do sistema final.</p>
+</div></div>
 </section>
 
 <section id="dados">
