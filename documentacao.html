@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Documentação do Projeto Integrador CiP — requisitos, UML e algoritmos.">
+<title>CiP — Documentação do Projeto Integrador</title>
+<style>
+:root{--ink:#202124;--muted:#666;--line:#d7d7d7;--paper:#fff;--soft:#f5f5f5}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.55 Arial,Helvetica,sans-serif}
+header,main,footer{max-width:1040px;margin:auto;padding:0 26px}header{padding-top:48px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.kicker{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1{font-size:34px;line-height:1.15;font-weight:600;margin:12px 0 8px}h2{font-size:23px;font-weight:600;margin:42px 0 14px;padding-bottom:7px;border-bottom:1px solid var(--line)}h3{font-size:17px;margin:25px 0 9px;font-weight:600}
+p{margin:8px 0 12px}.meta{color:var(--muted);font-size:13px}.lead{font-size:17px;max-width:760px}
+nav{display:flex;flex-wrap:wrap;gap:8px 18px;padding:16px 0;font-size:13px}a{color:#174ea6;text-decoration:none}a:hover{text-decoration:underline}
+main{padding-top:20px;padding-bottom:60px}ul,ol{padding-left:22px}li{margin:4px 0}
+table{width:100%;border-collapse:collapse;margin:12px 0 22px;font-size:13px}th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}th{font-weight:600;background:var(--soft)}
+code,pre{font-family:Consolas,Monaco,monospace}pre{white-space:pre-wrap;background:var(--soft);padding:15px;border-left:2px solid #777;font-size:13px;line-height:1.5;overflow:auto}
+.diagram{margin:16px 0 24px;overflow-x:auto;border-bottom:1px solid var(--line);padding:8px 0 18px}.diagram svg{display:block;max-width:100%;height:auto;margin:auto}.diagram text{font-family:Arial,sans-serif;fill:#222}
+.small{font-size:12px;color:var(--muted)}.tag{display:inline-block;font-size:11px;border:1px solid var(--line);padding:2px 7px;margin-right:5px}
+footer{border-top:1px solid var(--line);padding-top:18px;padding-bottom:35px;color:var(--muted);font-size:12px}
+@media(max-width:650px){header,main,footer{padding-left:17px;padding-right:17px}h1{font-size:28px}h2{font-size:20px}table{font-size:12px}th,td{padding:7px 6px}}
+@media print{nav{display:none}body{font-size:11pt}header,main,footer{max-width:none;padding-left:0;padding-right:0}h2{break-after:avoid}.diagram{break-inside:avoid}a{color:inherit}}
+</style>
+</head>
+<body>
+<header>
+<div class="kicker">Projeto Integrador · Especificação v1.0</div>
+<h1>Sistema de Gestão de Apoiadores e Apoios</h1>
+<p class="lead">CiP — Centro de Integração e Promoção</p>
+<p class="meta">Levantamento respondido por Nívea Quinsan · Diretora · 14/11/2026<br>Documento de trabalho · 15/11/2026</p>
+<nav>
+<a href="#visao">Visão geral</a><a href="#escopo">Escopo</a><a href="#rf">RF</a><a href="#rnf">RNF</a><a href="#regras">Regras</a><a href="#uml">UML</a><a href="#dados">Dados</a><a href="#algoritmos">Algoritmos</a><a href="#aceite">Aceitação</a><a href="#pendencias">Pendências</a>
+</nav>
+</header>
+<main>
+<section id="visao">
+<h2>1. Visão geral</h2>
+<p>Centralizar o relacionamento com apoiadores e organizações e controlar ofertas, apoios, recebimentos, destinação, tarefas, documentos e prestação de contas.</p>
+<table><tbody>
+<tr><th>Instituição</th><td>CiP — denominação conforme o questionário utilizado no projeto.</td></tr>
+<tr><th>Solicitante consultada</th><td>Nívea Quinsan — Diretora.</td></tr>
+<tr><th>Usuários</th><td>Direção/coordenação, administrativo, chefia de divisão, assessoria e administração do sistema.</td></tr>
+<tr><th>Problema</th><td>Dados distribuídos entre fichas físicas, planilhas, WhatsApp, e-mail e pastas locais ou em nuvem.</td></tr>
+<tr><th>Objetivo principal</th><td>Memória institucional, rastreabilidade dos apoios e geração de informações para gestão e prestação de contas.</td></tr>
+</tbody></table>
+<p class="small">A denominação institucional foi mantida conforme o questionário. A confirmação do nome oficial e da sigla deve ocorrer antes da entrega final.</p>
+</section>
+
+<section id="escopo">
+<h2>2. Escopo</h2>
+<h3>Primeira versão</h3>
+<ul><li>Apoiadores, organizações e contatos.</li><li>Projetos, módulos e setores de destino.</li><li>Cadastro e acompanhamento de ofertas e apoios.</li><li>Recebimentos parciais e integrais e destinação.</li><li>Interações, tarefas, prazos e alertas.</li><li>Documentos e comprovantes.</li><li>Relatórios e prestação de contas em PDF e XLSX.</li><li>Usuários, permissões e auditoria.</li><li>Operação offline essencial e sincronização posterior, condicionadas à validação técnica.</li></ul>
+<h3>Fora da primeira versão</h3>
+<ul><li>Gestão acadêmica completa de alunos, matrículas, turmas, frequência, professores e certificados.</li><li>Integração automática com WhatsApp, serviços de e-mail, calendário e nuvens externas.</li><li>Contabilidade oficial, assinatura digital e portal público de apoiadores.</li></ul>
+<p>Os cursos e módulos poderão ser cadastrados como destinos dos apoios. O sistema não será, nesta etapa, um sistema escolar.</p>
+</section>
+
+<section id="rf">
+<h2>3. Requisitos funcionais</h2>
+<table><thead><tr><th>ID</th><th>Requisito</th></tr></thead><tbody>
+<tr><td>RF01</td><td>Cadastrar, consultar, editar e inativar apoiadores, identificando pessoa física ou jurídica.</td></tr>
+<tr><td>RF02</td><td>Registrar nome/razão social, CPF/CNPJ quando aplicável, telefone, e-mail, endereço, área de atuação e observações.</td></tr>
+<tr><td>RF03</td><td>Vincular vários contatos a um mesmo apoiador ou organização.</td></tr>
+<tr><td>RF04</td><td>Identificar o contato principal e preservar o histórico de substituições.</td></tr>
+<tr><td>RF05</td><td>Classificar relacionamentos como apoiador, parceiro, voluntário, fornecedor ou categoria configurável.</td></tr>
+<tr><td>RF06</td><td>Cadastrar projetos, cursos, módulos e setores que podem receber apoios.</td></tr>
+<tr><td>RF07</td><td>Registrar ofertas e apoios com tipo, descrição, quantidade, unidade, valor estimado, datas, condições e responsável.</td></tr>
+<tr><td>RF08</td><td>Vincular cada apoio ao apoiador e a um ou mais projetos ou setores de destino.</td></tr>
+<tr><td>RF09</td><td>Acompanhar status: oferta recebida, em avaliação, aprovado, aguardando entrega, recebido parcialmente, recebido integralmente, recusado, cancelado, armazenado, em uso/distribuição e concluído.</td></tr>
+<tr><td>RF10</td><td>Registrar múltiplos recebimentos parciais para um mesmo apoio.</td></tr>
+<tr><td>RF11</td><td>Registrar destinação, quantidade, setor, responsável e data, quando aplicável.</td></tr>
+<tr><td>RF12</td><td>Anexar termos, comprovantes, fotos, PDFs, documentos de texto e planilhas.</td></tr>
+<tr><td>RF13</td><td>Registrar interações por ligação, WhatsApp, e-mail, reunião, visita, evento e entrega/retirada.</td></tr>
+<tr><td>RF14</td><td>Manter histórico das interações com data, envolvidos, assunto, resumo, resultado e próxima ação.</td></tr>
+<tr><td>RF15</td><td>Criar tarefas vinculadas a apoiadores, apoios, projetos ou interações, com responsável, prazo, prioridade e situação.</td></tr>
+<tr><td>RF16</td><td>Exibir tarefas pendentes, atrasadas, próximas do prazo e parcerias ativas no painel inicial.</td></tr>
+<tr><td>RF17</td><td>Emitir alertas de prazo, retorno pendente, prestação de contas e datas importantes.</td></tr>
+<tr><td>RF18</td><td>Pesquisar e filtrar por nome, categoria, tipo de apoio, projeto, período, status, responsável e localidade.</td></tr>
+<tr><td>RF19</td><td>Gerar relatórios operacionais e de prestação de contas com filtros por período, apoiador, projeto, tipo e situação.</td></tr>
+<tr><td>RF20</td><td>Exportar relatórios em PDF e XLSX.</td></tr>
+<tr><td>RF21</td><td>Criar contas individuais e permitir ativação ou inativação de usuários.</td></tr>
+<tr><td>RF22</td><td>Controlar permissões de consulta, cadastro, edição, exclusão lógica, relatórios e dados financeiros.</td></tr>
+<tr><td>RF23</td><td>Registrar criação, alteração e exclusão lógica, usuário, data/hora e valores anteriores/posteriores.</td></tr>
+<tr><td>RF24</td><td>Permitir consulta e registro offline de dados previamente sincronizados, mantendo fila local de alterações.</td></tr>
+<tr><td>RF25</td><td>Sincronizar alterações locais ao restabelecer conexão e sinalizar conflitos para resolução.</td></tr>
+<tr><td>RF26</td><td>Permitir anexar arquivos por computador ou celular, respeitando permissões e limites configurados.</td></tr>
+<tr><td>RF27</td><td>Exibir o histórico do relacionamento com um apoiador e seus apoios associados.</td></tr>
+</tbody></table>
+</section>
+
+<section id="rnf">
+<h2>4. Requisitos não funcionais</h2>
+<table><thead><tr><th>ID</th><th>Requisito</th></tr></thead><tbody>
+<tr><td>RNF01</td><td>Interface simples, consistente e adequada a usuários com conhecimento básico de tecnologia.</td></tr>
+<tr><td>RNF02</td><td>Interface responsiva para computadores, tablets e celulares.</td></tr>
+<tr><td>RNF03</td><td>Aplicação web acessível por navegador mediante autenticação.</td></tr>
+<tr><td>RNF04</td><td>Operações essenciais offline após carga inicial, com sincronização posterior.</td></tr>
+<tr><td>RNF05</td><td>Integridade garantida por validação no servidor, chaves estrangeiras, restrições e transações.</td></tr>
+<tr><td>RNF06</td><td>Senhas com hash seguro, HTTPS, sessões protegidas e medidas contra SQL Injection, XSS e CSRF.</td></tr>
+<tr><td>RNF07</td><td>Permissões verificadas no servidor em cada operação protegida.</td></tr>
+<tr><td>RNF08</td><td>Coleta mínima de dados pessoais e tratamento conforme LGPD e normas aplicáveis.</td></tr>
+<tr><td>RNF09</td><td>Trilha de auditoria protegida contra alteração por usuários comuns.</td></tr>
+<tr><td>RNF10</td><td>Cada operação offline deve possuir identificador único, data/hora e estado de sincronização.</td></tr>
+<tr><td>RNF11</td><td>Compatibilidade com versões atuais de Chrome, Edge e Firefox.</td></tr>
+<tr><td>RNF12</td><td>Código organizado por responsabilidades, separando interface, regras de negócio e persistência.</td></tr>
+<tr><td>RNF13</td><td>Backups periódicos do banco e dos arquivos, com restauração testável.</td></tr>
+<tr><td>RNF14</td><td>Consultas paginadas, filtros no servidor e índices nos campos de busca frequente.</td></tr>
+<tr><td>RNF15</td><td>Relatórios devem indicar filtros, período, data de geração e responsável.</td></tr>
+</tbody></table>
+</section>
+
+<section id="regras">
+<h2>5. Regras de negócio</h2>
+<table><thead><tr><th>ID</th><th>Regra</th></tr></thead><tbody>
+<tr><td>RN01</td><td>Um apoiador pode possuir vários contatos; cada contato pertence a um apoiador.</td></tr>
+<tr><td>RN02</td><td>Um apoiador pode possuir mais de uma categoria de relacionamento.</td></tr>
+<tr><td>RN03</td><td>Um apoiador pode realizar vários apoios.</td></tr>
+<tr><td>RN04</td><td>Um apoio pode ser destinado a vários projetos; a relação registra quantidade ou parcela quando aplicável.</td></tr>
+<tr><td>RN05</td><td>Recebimento parcial não encerra o apoio. O recebimento integral depende da quantidade prevista ou de confirmação justificada.</td></tr>
+<tr><td>RN06</td><td>Apoios recusados ou cancelados preservam histórico e motivo.</td></tr>
+<tr><td>RN07</td><td>A conclusão deve identificar recebimento, destinação, documentos e responsável, conforme aplicável.</td></tr>
+<tr><td>RN08</td><td>Tarefas possuem responsável e prazo; a conclusão preserva data e usuário.</td></tr>
+<tr><td>RN09</td><td>Dados financeiros e relatórios restritos exigem permissão explícita.</td></tr>
+<tr><td>RN10</td><td>Registros comuns não são apagados fisicamente; utiliza-se inativação ou exclusão lógica com auditoria.</td></tr>
+<tr><td>RN11</td><td>Conflitos offline não sobrescrevem silenciosamente versões mais recentes do servidor.</td></tr>
+<tr><td>RN12</td><td>Informações relevantes da prestação de contas devem estar associadas aos comprovantes disponíveis.</td></tr>
+</tbody></table>
+</section>
+
+<section id="uml">
+<h2>6. Diagramas UML</h2>
+<h3>6.1 Casos de uso</h3>
+<div class="diagram">
+<svg viewBox="0 0 900 480" role="img" aria-label="Diagrama UML de casos de uso">
+<rect x="190" y="35" width="520" height="405" fill="none" stroke="#555" stroke-dasharray="6 5"/>
+<text x="450" y="25" text-anchor="middle" font-size="15">Sistema de Gestão de Apoiadores e Apoios — CiP</text>
+<g stroke="#222" fill="none" stroke-width="1.4">
+<circle cx="85" cy="220" r="18"/><path d="M85 238v65m-28-38h56m-28 38-25 42m25-42 25 42"/>
+<circle cx="815" cy="145" r="18"/><path d="M815 163v65m-28-38h56m-28 38-25 42m25-42 25 42"/>
+<circle cx="815" cy="340" r="18"/><path d="M815 358v55m-28-32h56m-28 32-25 35m25-35 25 35"/>
+<g fill="#fff"><ellipse cx="330" cy="100" rx="105" ry="30"/><ellipse cx="565" cy="100" rx="105" ry="30"/><ellipse cx="330" cy="205" rx="105" ry="30"/><ellipse cx="565" cy="205" rx="105" ry="30"/><ellipse cx="330" cy="310" rx="105" ry="30"/><ellipse cx="565" cy="310" rx="105" ry="30"/><ellipse cx="450" cy="395" rx="115" ry="27"/></g>
+<g stroke-width="1"><path d="M112 220 225 100M112 220 225 205M112 220 225 310M112 220 450 395M788 145 670 100M788 145 670 205M788 145 670 310M788 145 450 395M788 340 670 310M788 340 565 205M788 340 450 395"/></g>
+</g>
+<g font-size="13" text-anchor="middle"><text x="330" y="105">Manter apoiadores e contatos</text><text x="565" y="105">Registrar e acompanhar apoios</text><text x="330" y="210">Registrar interações e tarefas</text><text x="565" y="210">Consultar projetos e destinações</text><text x="330" y="315">Emitir relatórios e prestação</text><text x="565" y="315">Consultar histórico e auditoria</text><text x="450" y="400">Gerenciar usuários e permissões</text>
+<text x="85" y="390">Administrativo</text><text x="815" y="285">Direção / Coordenação</text><text x="815" y="470">Administrador</text></g>
+</svg>
+</div>
+<h3>6.2 Classes — modelo de domínio</h3>
+<div class="diagram">
+<svg viewBox="0 0 1000 650" role="img" aria-label="Diagrama UML de classes do sistema">
+<g fill="white" stroke="#333" stroke-width="1.2">
+<rect x="15" y="25" width="190" height="125"/><rect x="270" y="25" width="190" height="125"/><rect x="525" y="25" width="190" height="125"/><rect x="780" y="25" width="190" height="125"/>
+<rect x="25" y="260" width="190" height="120"/><rect x="275" y="260" width="190" height="120"/><rect x="525" y="260" width="190" height="120"/><rect x="780" y="260" width="190" height="120"/>
+<rect x="25" y="485" width="190" height="120"/><rect x="275" y="485" width="190" height="120"/><rect x="525" y="485" width="190" height="120"/><rect x="780" y="485" width="190" height="120"/>
+</g>
+<g stroke="#333"><path d="M15 55h190M270 55h190M525 55h190M780 55h190M25 290h190M275 290h190M525 290h190M780 290h190M25 515h190M275 515h190M525 515h190M780 515h190"/></g>
+<g font-size="13" text-anchor="middle" font-weight="bold"><text x="110" y="45">Apoiador</text><text x="365" y="45">Contato</text><text x="620" y="45">Apoio</text><text x="875" y="45">Projeto</text><text x="120" y="280">Interação</text><text x="370" y="280">Tarefa</text><text x="620" y="280">ApoioProjeto</text><text x="875" y="280">Documento</text><text x="120" y="505">Usuário</text><text x="370" y="505">Perfil</text><text x="620" y="505">Auditoria</text><text x="875" y="505">Recebimento</text></g>
+<g font-size="11"><text x="25" y="75">id, tipo, nome, documento</text><text x="25" y="92">telefone, e-mail, endereço</text><text x="280" y="75">id, apoiador_id, nome</text><text x="280" y="92">função, contato, principal</text><text x="535" y="75">id, apoiador_id, tipo</text><text x="535" y="92">descrição, quantidade, valor</text><text x="790" y="75">id, nome, módulo/setor</text><text x="790" y="92">responsável, status</text>
+<text x="35" y="310">id, apoiador_id, usuário_id</text><text x="35" y="327">canal, assunto, resumo, data</text><text x="285" y="310">id, responsável_id, prazo</text><text x="285" y="327">prioridade, status</text><text x="535" y="310">apoio_id, projeto_id</text><text x="535" y="327">quantidade destinada</text><text x="790" y="310">id, apoio_id, tipo, caminho</text><text x="790" y="327">data, usuário_id</text>
+<text x="35" y="535">id, nome, e-mail, senha_hash</text><text x="35" y="552">perfil_id, ativo</text><text x="285" y="535">id, nome, permissões</text><text x="535" y="535">id, usuário_id, entidade</text><text x="535" y="552">ação, data, antes/depois</text><text x="790" y="535">id, apoio_id, data, quantidade</text><text x="790" y="552">responsável, observação</text></g>
+<g stroke="#555" fill="none" stroke-width="1.2"><path d="M205 90H270M460 90H525M715 90H780M110 150V260M365 150V260M620 150V260M875 150V260M120 380V485M370 380V485M620 380V485M875 380V485"/></g>
+<g font-size="10" fill="#555"><text x="225" y="82">1 : N</text><text x="480" y="82">1 : N</text><text x="735" y="82">N : N*</text><text x="125" y="205">1 : N</text><text x="375" y="205">1 : N</text><text x="630" y="205">1 : N</text></g>
+</svg>
+</div>
+<p class="small">*A relação muitos-para-muitos entre Apoio e Projeto é resolvida por ApoioProjeto. Diagrama conceitual; cardinalidades e campos serão detalhados no DER.</p>
+<h3>6.3 Atividades — ciclo de um apoio</h3>
+<div class="diagram">
+<svg viewBox="0 0 700 560" role="img" aria-label="Diagrama de atividades do ciclo de um apoio">
+<g stroke="#333" fill="white" stroke-width="1.4">
+<ellipse cx="350" cy="28" rx="30" ry="16"/><rect x="235" y="70" width="230" height="48"/><rect x="235" y="155" width="230" height="48"/><polygon points="350,230 420,275 350,320 280,275"/><rect x="485" y="250" width="170" height="50"/><rect x="235" y="350" width="230" height="48"/><rect x="235" y="430" width="230" height="48"/><ellipse cx="350" cy="525" rx="70" ry="22"/>
+</g>
+<g font-size="13" text-anchor="middle"><text x="350" y="33">Início</text><text x="350" y="99">Registrar oferta e apoiador</text><text x="350" y="184">Avaliar oferta</text><text x="350" y="279">Aceita?</text><text x="570" y="280">Registrar recusa</text><text x="350" y="379">Aguardar entrega</text><text x="350" y="459">Registrar recebimento</text><text x="350" y="530">Destinar e prestar contas</text></g>
+<g stroke="#333" fill="none" stroke-width="1.4"><path d="M350 44V70M350 118V155M350 203V230M350 320V350M350 398V430M350 478V500M420 275H485"/></g>
+<g font-size="11"><text x="365" y="338">Sim</text><text x="445" y="263">Não</text></g>
+</svg>
+</div>
+<h3>6.4 Sequência — registro de apoio</h3>
+<div class="diagram">
+<svg viewBox="0 0 900 430" role="img" aria-label="Diagrama de sequência para registrar apoio">
+<g fill="white" stroke="#333"><rect x="35" y="20" width="130" height="42"/><rect x="215" y="20" width="130" height="42"/><rect x="395" y="20" width="130" height="42"/><rect x="575" y="20" width="130" height="42"/><rect x="755" y="20" width="120" height="42"/></g>
+<g font-size="13" text-anchor="middle"><text x="100" y="46">Usuário</text><text x="280" y="46">Interface</text><text x="460" y="46">Backend</text><text x="640" y="46">Banco</text><text x="815" y="46">Auditoria</text></g>
+<g stroke="#888" stroke-dasharray="5 4"><path d="M100 62V400M280 62V400M460 62V400M640 62V400M815 62V400"/></g>
+<g stroke="#333" fill="none" stroke-width="1.2"><path d="M100 100H280l-8 -5m8 5-8 5M280 155H460l-8 -5m8 5-8 5M460 210H640l-8 -5m8 5-8 5M640 265H460l8 -5m-8 5 8 5M460 320H815l-8 -5m8 5-8 5M460 365H280l8 -5m-8 5 8 5"/></g>
+<g font-size="12" text-anchor="middle"><text x="190" y="90">Preenche formulário</text><text x="370" y="145">Envia dados</text><text x="550" y="200">Valida e grava apoio</text><text x="550" y="255">Confirmação</text><text x="637" y="310">Registra evento</text><text x="370" y="355">Retorna resultado</text></g>
+</svg>
+</div>
+<h3>6.5 Arquitetura lógica proposta</h3>
+<div class="diagram">
+<svg viewBox="0 0 900 300" role="img" aria-label="Arquitetura lógica: navegador, servidor PHP, banco de dados e armazenamento">
+<g fill="white" stroke="#333" stroke-width="1.3"><rect x="20" y="70" width="230" height="125"/><rect x="335" y="70" width="230" height="125"/><rect x="650" y="70" width="230" height="125"/><rect x="335" y="225" width="230" height="60"/></g>
+<g font-size="14" text-anchor="middle"><text x="135" y="100" font-weight="bold">Dispositivo / PWA</text><text x="135" y="125">HTML, CSS e JavaScript</text><text x="135" y="148">IndexedDB · modo offline</text><text x="450" y="100" font-weight="bold">Servidor da aplicação</text><text x="450" y="125">PHP · validações · PDO</text><text x="450" y="148">Autenticação e regras</text><text x="765" y="100" font-weight="bold">Banco de dados</text><text x="765" y="125">MySQL / MariaDB</text><text x="765" y="148">Transações e integridade</text><text x="450" y="250" font-weight="bold">Arquivos e comprovantes</text><text x="450" y="270" font-size="11">Armazenamento protegido</text></g>
+<g stroke="#333" fill="none" stroke-width="1.3"><path d="M250 130H335l-8 -5m8 5-8 5M565 130H650l-8 -5m8 5-8 5M450 195V225l-5 -8m5 8 5 -8"/></g>
+</svg>
+</div>
+<p class="small">Arquitetura sugerida para o sistema final: HTML/CSS/JavaScript, PHP com PDO e banco relacional MySQL/MariaDB. IndexedDB pode manter operações locais. O projeto de questionário CIP-quests e seu banco de respostas são separados do banco do sistema final.</p>
+</section>
+
+<section id="dados">
+<h2>7. Entidades principais</h2>
+<table><thead><tr><th>Entidade</th><th>Campos principais</th></tr></thead><tbody>
+<tr><td>Apoiador</td><td>id, tipo_pessoa, nome_razao_social, documento, telefone, email, endereço, status, observações</td></tr>
+<tr><td>CategoriaApoiador</td><td>id, nome</td></tr>
+<tr><td>ApoiadorCategoria</td><td>apoiador_id, categoria_id</td></tr>
+<tr><td>Contato</td><td>id, apoiador_id, nome, função, telefone, email, principal, início_vigência, fim_vigência</td></tr>
+<tr><td>Projeto</td><td>id, nome, descrição, módulo_setor, responsável_id, status</td></tr>
+<tr><td>Apoio</td><td>id, apoiador_id, tipo, descrição, quantidade_prevista, unidade, valor_estimado, datas, status, condições</td></tr>
+<tr><td>Recebimento</td><td>id, apoio_id, data, quantidade, unidade, responsável_id, observação</td></tr>
+<tr><td>ApoioProjeto</td><td>id, apoio_id, projeto_id, quantidade_destinada, observação</td></tr>
+<tr><td>Destinação</td><td>id, apoio_projeto_id, data, quantidade, setor, responsável_id, observação</td></tr>
+<tr><td>Interação</td><td>id, apoiador_id, apoio_id opcional, usuário_id, canal, assunto, resumo, resultado, data</td></tr>
+<tr><td>Tarefa</td><td>id, interação_id opcional, apoio_id opcional, projeto_id opcional, responsável_id, prazo, prioridade, status</td></tr>
+<tr><td>Documento</td><td>id, entidade_tipo, entidade_id, nome, tipo, caminho_arquivo, data_upload, usuário_id</td></tr>
+<tr><td>Usuário / Perfil</td><td>id, nome, email, senha_hash, perfil_id, ativo; perfil: nome e permissões</td></tr>
+<tr><td>Auditoria</td><td>id, usuário_id, entidade, registro_id, ação, data_hora, dados_anteriores, dados_novos</td></tr>
+</tbody></table>
+<p class="small">Chaves primárias e estrangeiras devem ser definidas no DER. Para documentos, recomenda-se tabela de vínculo específica ou estratégia equivalente que preserve integridade referencial.</p>
+</section>
+
+<section id="algoritmos">
+<h2>8. Algoritmos</h2>
+<h3>8.1 Registrar oferta de apoio</h3>
+<pre>INÍCIO
+  receber dados da oferta
+  validar usuário e permissão
+  validar apoiador e campos obrigatórios
+  SE apoiador não existir:
+      cadastrar apoiador
+  FIM SE
+  iniciar transação
+      cadastrar apoio com status "Em avaliação"
+      vincular apoio ao apoiador
+      registrar documentos, se houver
+      gravar evento na auditoria
+  confirmar transação
+  exibir protocolo e situação
+FIM</pre>
+<h3>8.2 Registrar recebimento</h3>
+<pre>INÍCIO
+  localizar apoio
+  validar permissão e situação
+  receber data, quantidade e responsável
+  validar quantidade maior que zero
+  iniciar transação
+      registrar recebimento
+      total = soma dos recebimentos do apoio
+      SE total >= quantidade prevista:
+          status = "Recebido integralmente"
+      SENÃO:
+          status = "Recebido parcialmente"
+      FIM SE
+      gravar auditoria
+  confirmar transação
+  atualizar painel e tarefas
+FIM</pre>
+<h3>8.3 Sincronizar operações offline</h3>
+<pre>INÍCIO
+  detectar conexão
+  SE houver conexão:
+      obter operações locais pendentes por ordem
+      PARA cada operação:
+          enviar identificador, usuário, data e conteúdo
+          validar permissão e versão no servidor
+          SE identificador já processado:
+              marcar como sincronizada
+          SENÃO SE existir conflito de versão:
+              marcar como "Conflito" e solicitar resolução
+          SENÃO:
+              validar e gravar em transação
+              registrar auditoria
+              confirmar operação
+          FIM SE
+      FIM PARA
+  FIM SE
+FIM</pre>
+<h3>8.4 Gerar prestação de contas</h3>
+<pre>INÍCIO
+  receber filtros: período, projeto, apoiador e situação
+  validar permissão de relatório/financeiro
+  consultar apoios e recebimentos
+  consultar destinações e documentos vinculados
+  calcular totais por tipo e projeto, quando houver valores
+  identificar pendências e itens sem comprovante
+  montar relatório com filtros e data de geração
+  exportar para PDF ou XLSX
+  registrar geração na auditoria
+FIM</pre>
+</section>
+
+<section id="aceite">
+<h2>9. Critérios de aceitação</h2>
+<ol><li>Cadastrar um apoiador e dois contatos, alternando o contato principal sem perder o histórico.</li><li>Registrar apoio financeiro e não financeiro.</li><li>Registrar recebimentos parciais e conferir o saldo pendente.</li><li>Vincular um apoio a dois projetos e consultar a destinação.</li><li>Anexar e localizar um comprovante.</li><li>Criar tarefa com responsável e prazo e exibir pendências no painel.</li><li>Bloquear relatório financeiro para usuário sem permissão.</li><li>Consultar auditoria de registro alterado.</li><li>Exportar relatório filtrado para PDF e XLSX.</li><li>Registrar operação offline e sincronizar após reconexão sem duplicar registros.</li></ol>
+</section>
+
+<section id="pendencias">
+<h2>10. Premissas e pontos a validar</h2>
+<ul>
+<li>“7 setor adm” foi interpretado como referência ao setor administrativo, não como sete usuários.</li>
+<li>A hierarquia direção, chefia de divisão, assessoria e administrativo será configurável; a matriz definitiva de autoridade precisa ser confirmada.</li>
+<li>“Garantia de demanda” foi entendida como possível compromisso institucional associado ao apoio; conteúdo, responsável e evidência precisam ser definidos.</li>
+<li>“Se mantém” foi interpretado como permanência/armazenamento após o recebimento. É necessário confirmar se há distribuição, consumo ou controle de estoque.</li>
+<li>Definir quem aprova, recusa e conclui apoios.</li>
+<li>Definir quais documentos são obrigatórios por tipo de apoio e para prestação de contas.</li>
+<li>Definir níveis de acesso a relatórios e dados financeiros.</li>
+<li>Definir prazo de retenção de dados e documentos conforme política municipal.</li>
+<li>Confirmar se todos os módulos devem funcionar offline ou apenas consultas, cadastros e interações.</li>
+<li>Validar número de usuários, setores e projetos ativos.</li>
+</ul>
+</section>
+
+<section id="referencias">
+<h2>11. Referências</h2>
+<ul>
+<li>Questionário público de levantamento de requisitos do CiP, respondido por Nívea Quinsan, Diretora, em 14/11/2026. Fonte primária.</li>
+<li>Histórico de definição do Projeto Integrador e do questionário CIP-quests.</li>
+<li>Lei nº 13.709/2018 — Lei Geral de Proteção de Dados Pessoais: <a href="https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm" target="_blank" rel="noopener">Planalto</a>.</li>
+<li>Diagramas UML e algoritmos elaborados para esta especificação; sujeitos à validação da equipe.</li>
+</ul>
+</section>
+</main>
+<footer>CiP · Projeto Integrador · Documento de trabalho v1.0 · Requisitos sujeitos à validação institucional e técnica.</footer>
+</body>
+</html>
