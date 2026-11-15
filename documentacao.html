@@ -40,7 +40,7 @@ footer{border-top:1px solid var(--line);padding-top:18px;padding-bottom:35px;col
 <p class="lead">CiP — Centro de Integração e Promoção</p>
 <p class="meta">Levantamento respondido por Nívea Quinsan · Diretora · 14/11/2026<br>Documento de trabalho · 15/11/2026</p>
 <nav>
-<a href="#visao">Visão geral</a><a href="#escopo">Escopo</a><a href="#rf">RF</a><a href="#rnf">RNF</a><a href="#regras">Regras</a><a href="#diagramas">Diagramas</a><a href="#dados">Dados</a><a href="#algoritmos">Algoritmos</a><a href="#aceite">Aceitação</a><a href="#pendencias">Pendências</a>
+<a href="#visao">Visão geral</a><a href="#escopo">Escopo</a><a href="#rf">RF</a><a href="#rnf">RNF</a><a href="#regras">Regras</a><a href="#operacao">Organização do CRM</a><a href="#diagramas">Diagramas</a><a href="#dados">Dados</a><a href="#algoritmos">Algoritmos</a><a href="#aceite">Aceitação</a><a href="#pendencias">Pendências</a>
 </nav>
 </header>
 <main>
@@ -132,9 +132,12 @@ footer{border-top:1px solid var(--line);padding-top:18px;padding-bottom:35px;col
 <tr><td>RN07</td><td>A conclusão deve identificar recebimento, destinação, documentos e responsável, conforme aplicável.</td></tr>
 <tr><td>RN08</td><td>Tarefas possuem responsável e prazo; a conclusão preserva data e usuário.</td></tr>
 <tr><td>RN09</td><td>Dados financeiros e relatórios restritos exigem permissão explícita.</td></tr>
-<tr><td>RN10</td><td>Registros comuns não são apagados fisicamente; utiliza-se inativação ou exclusão lógica com auditoria.</td></tr>
+<tr><td>RN10</td><td>Registros removidos da operação cotidiana passam por exclusão lógica (soft delete), com data, usuário e motivo; permanecem consultáveis em área própria e podem ser restaurados por usuário autorizado.</td></tr>
 <tr><td>RN11</td><td>Conflitos offline não sobrescrevem silenciosamente versões mais recentes do servidor.</td></tr>
 <tr><td>RN12</td><td>Informações relevantes da prestação de contas devem estar associadas aos comprovantes disponíveis.</td></tr>
+<tr><td>RN13</td><td>O encerramento de um relacionamento com apoiador não equivale à exclusão lógica do cadastro; o histórico e os apoios anteriores devem ser preservados.</td></tr>
+<tr><td>RN14</td><td>Estatísticas gerenciais de relacionamento são restritas à administradora principal, Nívea, salvo alteração expressa de permissão por ela.</td></tr>
+<tr><td>RN15</td><td>A conta administradora principal pode criar, ativar, inativar usuários e conceder, revisar ou revogar permissões.</td></tr>
 </tbody></table>
 </section>
 
@@ -167,18 +170,34 @@ footer{border-top:1px solid var(--line);padding-top:18px;padding-bottom:35px;col
 </svg>
 </div><p class="page-note">Modelo conceitual inicial. Métodos, tipos e cardinalidades serão detalhados durante a implementação.</p></div>
 <div class="diagram-page"><div class="page-kicker">CiP · Projeto Integrador</div><h2>3. Diagrama de casos de uso</h2><p class="page-subtitle">Atores e funcionalidades disponíveis no sistema.</p><div class="diagram">
-<svg viewBox="0 0 900 480" role="img" aria-label="Diagrama UML de casos de uso">
-<rect x="190" y="35" width="520" height="405" fill="none" stroke="#555" stroke-dasharray="6 5"/>
-<text x="450" y="25" text-anchor="middle" font-size="15">Sistema de Gestão de Apoiadores e Apoios — CiP</text>
-<g stroke="#222" fill="none" stroke-width="1.4">
-<circle cx="85" cy="220" r="18"/><path d="M85 238v65m-28-38h56m-28 38-25 42m25-42 25 42"/>
-<circle cx="815" cy="145" r="18"/><path d="M815 163v65m-28-38h56m-28 38-25 42m25-42 25 42"/>
-<circle cx="815" cy="340" r="18"/><path d="M815 358v55m-28-32h56m-28 32-25 35m25-35 25 35"/>
-<g fill="#fff"><ellipse cx="330" cy="100" rx="105" ry="30"/><ellipse cx="565" cy="100" rx="105" ry="30"/><ellipse cx="330" cy="205" rx="105" ry="30"/><ellipse cx="565" cy="205" rx="105" ry="30"/><ellipse cx="330" cy="310" rx="105" ry="30"/><ellipse cx="565" cy="310" rx="105" ry="30"/><ellipse cx="450" cy="395" rx="115" ry="27"/></g>
-<g stroke-width="1"><path d="M112 220 225 100M112 220 225 205M112 220 225 310M112 220 450 395M788 145 670 100M788 145 670 205M788 145 670 310M788 145 450 395M788 340 670 310M788 340 565 205M788 340 450 395"/></g>
+<svg viewBox="0 0 1100 610" role="img" aria-label="Diagrama UML de casos de uso com CRM, lixeira lógica e administração">
+<rect x="205" y="35" width="690" height="535" fill="#fff" stroke="#526579" stroke-width="1.5"/>
+<text x="550" y="25" text-anchor="middle" font-size="15" font-weight="bold">CRM Institucional — CiP</text>
+<g stroke="#34495e" fill="none" stroke-width="1.5">
+<circle cx="95" cy="235" r="18"/><path d="M95 253v65m-29-38h58m-29 38-26 43m26-43 26 43"/>
+<circle cx="1005" cy="150" r="18"/><path d="M1005 168v65m-29-38h58m-29 38-26 43m26-43 26 43"/>
+<circle cx="1005" cy="405" r="18"/><path d="M1005 423v65m-29-38h58m-29 38-26 43m26-43 26 43"/>
+<g fill="#fff">
+<ellipse cx="405" cy="100" rx="145" ry="30"/><ellipse cx="700" cy="100" rx="145" ry="30"/>
+<ellipse cx="405" cy="195" rx="145" ry="30"/><ellipse cx="700" cy="195" rx="145" ry="30"/>
+<ellipse cx="405" cy="290" rx="145" ry="30"/><ellipse cx="700" cy="290" rx="145" ry="30"/>
+<ellipse cx="405" cy="385" rx="145" ry="30"/><ellipse cx="700" cy="385" rx="145" ry="30"/>
+<ellipse cx="405" cy="480" rx="145" ry="30"/><ellipse cx="700" cy="480" rx="145" ry="30"/>
 </g>
-<g font-size="13" text-anchor="middle"><text x="330" y="105">Manter apoiadores e contatos</text><text x="565" y="105">Registrar e acompanhar apoios</text><text x="330" y="210">Registrar interações e tarefas</text><text x="565" y="210">Consultar projetos e destinações</text><text x="330" y="315">Emitir relatórios e prestação</text><text x="565" y="315">Consultar histórico e auditoria</text><text x="450" y="400">Gerenciar usuários e permissões</text>
-<text x="85" y="390">Administrativo</text><text x="815" y="285">Direção / Coordenação</text><text x="815" y="470">Administrador</text></g>
+<path d="M122 235 260 100M122 235 260 195M122 235 260 290M122 235 260 385M122 235 260 480M988 150 845 100M988 150 845 195M988 150 845 290M988 150 845 385M988 405 845 480M988 405 845 385"/>
+</g>
+<g font-size="13" text-anchor="middle" fill="#263238">
+<text x="405" y="105">Cadastrar e manter apoiadores</text><text x="700" y="105">Registrar e acompanhar apoios</text>
+<text x="405" y="200">Registrar interações e tarefas</text><text x="700" y="200">Consultar histórico do relacionamento</text>
+<text x="405" y="295">Consultar dashboard e pendências</text><text x="700" y="295">Consultar projetos e destinações</text>
+<text x="405" y="390">Consultar registros inativados</text><text x="700" y="390">Restaurar registro inativado</text>
+<text x="405" y="485">Emitir relatórios e prestação de contas</text><text x="700" y="485">Gerenciar usuários e permissões</text>
+<text x="95" y="390">Usuário CRM</text><text x="1005" y="300">Nívea · Administradora</text><text x="1005" y="555">Sistema / Auditoria</text>
+</g>
+<g stroke="#7b8794" stroke-width="1" stroke-dasharray="5 4" fill="none">
+<path d="M845 485 920 405M845 390 920 405M845 100 920 150"/>
+</g>
+<text x="550" y="550" text-anchor="middle" font-size="11" fill="#64748b">Estatísticas gerenciais restritas à conta administradora da Nívea.</text>
 </svg>
 </div><p class="page-note">Perfis e permissões finais dependem da validação da instituição.</p></div>
 <div class="diagram-page"><div class="page-kicker">CiP · Projeto Integrador</div><h2>4. Diagrama de relacionamento</h2><p class="page-subtitle">Visão das ligações entre os principais registros.</p><div class="diagram"><svg viewBox="1000 520" role="img" aria-label="Diagrama de relacionamento entre entidades">
@@ -245,13 +264,51 @@ footer{border-top:1px solid var(--line);padding-top:18px;padding-bottom:35px;col
 <g font-size="14" text-anchor="middle"><text x="135" y="100" font-weight="bold">Dispositivo / PWA</text><text x="135" y="125">HTML, CSS e JavaScript</text><text x="135" y="148">IndexedDB · modo offline</text><text x="450" y="100" font-weight="bold">Servidor da aplicação</text><text x="450" y="125">PHP · validações · PDO</text><text x="450" y="148">Autenticação e regras</text><text x="765" y="100" font-weight="bold">Banco de dados</text><text x="765" y="125">MySQL / MariaDB</text><text x="765" y="148">Transações e integridade</text><text x="450" y="250" font-weight="bold">Arquivos e comprovantes</text><text x="450" y="270" font-size="11">Armazenamento protegido</text></g>
 <g stroke="#333" fill="none" stroke-width="1.3"><path d="M250 130H335l-8 -5m8 5-8 5M565 130H650l-8 -5m8 5-8 5M450 195V225l-5 -8m5 8 5 -8"/></g>
 </svg>
-</div></div>
+</div><div class="diagram-page"><div class="page-kicker">CiP · Projeto Integrador</div><h2>9. Navegação do CRM e níveis de acesso</h2><p class="page-subtitle">Fluxo principal da aplicação e separação entre funções gerais e administração.</p>
+<div class="diagram"><svg viewBox="0 0 1000 610" role="img" aria-label="Fluxo de navegação do CRM institucional">
+<defs><marker id="navarr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0 0L6 3L0 6" fill="none" stroke="#526579"/></marker></defs>
+<g fill="#fff" stroke="#526579" stroke-width="1.5">
+<rect x="385" y="25" width="230" height="58"/><rect x="385" y="130" width="230" height="58"/>
+<rect x="80" y="255" width="230" height="72"/><rect x="385" y="255" width="230" height="72"/><rect x="690" y="255" width="230" height="72"/>
+<rect x="80" y="405" width="230" height="72"/><rect x="385" y="405" width="230" height="72"/><rect x="690" y="405" width="230" height="72"/>
+<rect x="690" y="525" width="230" height="58"/>
+</g>
+<g font-size="14" text-anchor="middle" fill="#263238">
+<text x="500" y="60" font-weight="bold">Login</text><text x="500" y="165" font-weight="bold">Área principal do CRM</text>
+<text x="195" y="285" font-weight="bold">Cadastro e relacionamento</text><text x="195" y="307" font-size="11">Apoiadores · contatos · apoios</text>
+<text x="500" y="285" font-weight="bold">Acompanhamento</text><text x="500" y="307" font-size="11">Dashboard · tarefas · pendências</text>
+<text x="805" y="285" font-weight="bold">Estatísticas</text><text x="805" y="307" font-size="11">Somente Nívea · Administradora</text>
+<text x="195" y="435" font-weight="bold">Registros inativados</text><text x="195" y="457" font-size="11">Consultar · restaurar · auditar</text>
+<text x="500" y="435" font-weight="bold">Histórico do apoiador</text><text x="500" y="457" font-size="11">Tempo de relacionamento · apoios</text>
+<text x="805" y="435" font-weight="bold">Administração de acessos</text><text x="805" y="457" font-size="11">Criar usuários · definir permissões</text>
+<text x="805" y="560" font-weight="bold">Indicadores de relacionamento</text>
+</g>
+<g stroke="#526579" stroke-width="1.5" fill="none" marker-end="url(#navarr)">
+<path d="M500 83V130"/><path d="M500 188V220H195V255"/><path d="M500 220V255"/><path d="M500 220H805V255"/>
+<path d="M195 327V405"/><path d="M500 327V405"/><path d="M805 327V405"/><path d="M805 477V525"/>
+</g>
+<g font-size="11" fill="#64748b"><text x="510" y="112">Autenticação</text><text x="205" y="390">Acesso conforme perfil</text><text x="815" y="505">Apenas perfil admin</text></g>
+</svg></div>
+<p class="page-note">O menu pode variar conforme as permissões do usuário. A área de estatísticas e a administração de acessos são exclusivas da conta administradora inicialmente atribuída à Nívea.</p></div></div>
+</section>
+
+<section id="operacao">
+<h2>6. Organização funcional do CRM</h2>
+<h3>Fluxo principal</h3>
+<ol><li><strong>Login:</strong> autenticação individual e carregamento das permissões do usuário.</li><li><strong>Sistema de cadastro:</strong> manutenção de apoiadores, contatos, organizações, apoios, projetos e histórico de interações.</li><li><strong>Acompanhamento:</strong> dashboard com tarefas, prazos, pendências, apoios em andamento e relacionamentos ativos.</li><li><strong>Estatísticas:</strong> área gerencial exclusiva da administradora, com indicadores históricos e análise da permanência dos apoiadores.</li></ol>
+<h3>Administração principal</h3>
+<p>Nívea Quinsan será definida como administradora principal do sistema. Sua conta poderá criar acessos individuais, ativar ou inativar usuários e conceder, editar ou revogar permissões. A conta deverá ser provisionada com segurança, sem senha fixa registrada na documentação.</p>
+<h3>Registros inativados — soft delete</h3>
+<p>A exclusão lógica não apaga o registro do banco. O item deixa de aparecer nas listas operacionais, mas passa a constar em uma página própria de <strong>Registros inativados</strong>, com filtros, data e autor da inativação, motivo, histórico e ação de restauração. A restauração deve devolver o registro ao fluxo normal sem perder seu histórico.</p>
+<p>O encerramento de uma parceria ou relacionamento é diferente de excluir um cadastro: um apoiador que deixou de contribuir deve continuar no CRM como histórico, com situação encerrada e datas do relacionamento.</p>
+<h3>Estatísticas exclusivas da administradora</h3>
+<ul><li>Total de apoiadores ativos e encerrados.</li><li>Lista de apoiadores que deixaram de apoiar, com data de encerramento.</li><li>Tempo de permanência de cada relacionamento, calculado entre início e encerramento; para relacionamentos ativos, até a data da consulta.</li><li>Histórico de apoios por apoiador, período, tipo e valor estimado, quando informado.</li><li>Indicadores de entrada, saída, permanência média e evolução ao longo do tempo.</li></ul>
 </section>
 
 <section id="dados">
 <h2>7. Entidades principais</h2>
 <table><thead><tr><th>Entidade</th><th>Campos principais</th></tr></thead><tbody>
-<tr><td>Apoiador</td><td>id, tipo_pessoa, nome_razao_social, documento, telefone, email, endereço, status, observações</td></tr>
+<tr><td>Apoiador</td><td>id, tipo_pessoa, nome_razao_social, documento, telefone, email, endereço, status_relacionamento, inicio_relacionamento, fim_relacionamento, motivo_encerramento, inativado_em, inativado_por, motivo_inativacao, observações</td></tr>
 <tr><td>CategoriaApoiador</td><td>id, nome</td></tr>
 <tr><td>ApoiadorCategoria</td><td>apoiador_id, categoria_id</td></tr>
 <tr><td>Contato</td><td>id, apoiador_id, nome, função, telefone, email, principal, início_vigência, fim_vigência</td></tr>
@@ -265,6 +322,7 @@ footer{border-top:1px solid var(--line);padding-top:18px;padding-bottom:35px;col
 <tr><td>Documento</td><td>id, entidade_tipo, entidade_id, nome, tipo, caminho_arquivo, data_upload, usuário_id</td></tr>
 <tr><td>Usuário / Perfil</td><td>id, nome, email, senha_hash, perfil_id, ativo; perfil: nome e permissões</td></tr>
 <tr><td>Auditoria</td><td>id, usuário_id, entidade, registro_id, ação, data_hora, dados_anteriores, dados_novos</td></tr>
+<tr><td>HistóricoRelacionamento</td><td>id, apoiador_id, data_inicio, data_fim, situação, motivo_encerramento, responsável_id</td></tr>
 </tbody></table>
 <p class="small">Chaves primárias e estrangeiras devem ser definidas no DER. Para documentos, recomenda-se tabela de vínculo específica ou estratégia equivalente que preserve integridade referencial.</p>
 </section>
@@ -353,10 +411,12 @@ FIM</pre>
 <li>“Se mantém” foi interpretado como permanência/armazenamento após o recebimento. É necessário confirmar se há distribuição, consumo ou controle de estoque.</li>
 <li>Definir quem aprova, recusa e conclui apoios.</li>
 <li>Definir quais documentos são obrigatórios por tipo de apoio e para prestação de contas.</li>
-<li>Definir níveis de acesso a relatórios e dados financeiros.</li>
+<li>Definir os demais perfis e níveis de acesso; a administração principal e as estatísticas ficam inicialmente restritas à Nívea.</li>
 <li>Definir prazo de retenção de dados e documentos conforme política municipal.</li>
 <li>Confirmar se todos os módulos devem funcionar offline ou apenas consultas, cadastros e interações.</li>
 <li>Validar número de usuários, setores e projetos ativos.</li>
+<li>Confirmar data de início do relacionamento e quais eventos caracterizam oficialmente a saída de um apoiador.</li>
+<li>Confirmar se a administradora principal poderá transferir a função de administradora ou se ela será fixa.</li>
 </ul>
 </section>
 
@@ -370,6 +430,6 @@ FIM</pre>
 </ul>
 </section>
 </main>
-<footer>CiP · Projeto Integrador · Documento de trabalho v1.0 · Requisitos sujeitos à validação institucional e técnica.</footer>
+<footer>CiP · Projeto Integrador · Documento de trabalho v1.1 · Requisitos sujeitos à validação institucional e técnica.</footer>
 </body>
 </html>
